@@ -13,8 +13,6 @@ This HMIS aims at having each department as a role, to better handle a real worl
 - Enhanced patient workflow integration
 - Improved database architecture
 
-**Credits**: The core framework and initial UI was design by [MartMbithi](https://github.com/MartMbithi).
-
 ## 🚀 Key Features
 
 ### Core HMIS Modules
@@ -79,3 +77,6 @@ Login Credentials are:
 Admin Module Email:
 
 Admin Module Password: 
+
+##
+**Credits**: The core framework and initial UI was design by [MartMbithi](https://github.com/MartMbithi).
