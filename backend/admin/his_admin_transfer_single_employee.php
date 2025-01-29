@@ -2,16 +2,58 @@
 <?php
 	session_start();
 	include('assets/inc/config.php');
+
+    $dept_query = "SELECT * FROM his_departments";
+    $dept_result = $mysqli->query($dept_query);
 		if(isset($_POST['trans_dept']))
 		{
             $doc_dept=$_POST['doc_dept'];
             $doc_number = $_GET['doc_number'];
 
-            //sql to insert captured values
-			$query="UPDATE his_docs SET doc_dept=? WHERE doc_number = ?";
-			$stmt = $mysqli->prepare($query);
-			$rc=$stmt->bind_param('ss', $doc_dept, $doc_number);
-			$stmt->execute();
+            if ($doc_dept == 'Reception') {
+                // Fetch current employee details before deleting from `his_docs`
+                $query = "SELECT doc_fname, doc_lname, doc_email, doc_pwd FROM his_docs WHERE doc_number = ?";
+                $stmt = $mysqli->prepare($query);
+                $stmt->bind_param('s', $doc_number);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $employee = $result->fetch_assoc();
+            
+                if ($employee) {
+                    // Insert into `his_receptionists`
+                    $insert_query = "INSERT INTO his_receptionists (receptionist_fname, receptionist_lname, receptionist_email, receptionist_pwd) VALUES (?, ?, ?, ?)";
+                    $insert_stmt = $mysqli->prepare($insert_query);
+                    $insert_stmt->bind_param('ssss', $employee['doc_fname'], $employee['doc_lname'], $employee['doc_email'], $employee['doc_pwd']);
+                    $insert_stmt->execute();
+            
+                    // Remove from `his_docs`
+                    $delete_query = "DELETE FROM his_docs WHERE doc_number = ?";
+                    $delete_stmt = $mysqli->prepare($delete_query);
+                    $delete_stmt->bind_param('s', $doc_number);
+                    $delete_stmt->execute();
+            
+                    if ($insert_stmt && $delete_stmt) {
+                        $success = "Employee Transferred to Reception Successfully!";
+                    } else {
+                        $err = "Error. Could not transfer to Reception.";
+                    }
+                } else {
+                    $err = "Employee not found!";
+                }
+            } else {
+                // Normal department transfer
+                $query = "UPDATE his_docs SET doc_dept=? WHERE doc_number = ?";
+                $stmt = $mysqli->prepare($query);
+                $stmt->bind_param('ss', $doc_dept, $doc_number);
+                $stmt->execute();
+            
+                if ($stmt) {
+                    $success = "Employee Transferred Successfully!";
+                } else {
+                    $err = "Please Try Again Later.";
+                }
+            }
+            
 			/*
 			*Use Sweet Alerts Instead Of This Fucked Up Javascript Alerts
 			*echo"<script>alert('Successfully Created Account Proceed To Log In ');</script>";
@@ -79,9 +121,16 @@
                             $doc_number=$_GET['doc_number'];
                             $ret="SELECT  * FROM his_docs WHERE doc_number=?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$doc_number);
+                            $stmt->bind_param('s',$doc_number);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
+
+                            // Fetch receptionist details (no doc_number, so fetch using receptionist_id)
+                            $receptionist_query = "SELECT * FROM his_receptionists WHERE receptionist_id=?";
+                            $receptionist_stmt = $mysqli->prepare($receptionist_query);
+                            $receptionist_stmt->bind_param('s', $doc_number); // Using doc_number as an identifier here for simplicity
+                            $receptionist_stmt->execute();
+                            $receptionist_result = $receptionist_stmt->get_result();
                             //$cnt=1;
                             while($row=$res->fetch_object())
                             {
@@ -120,16 +169,17 @@
                                             </div>
                                             
                                             <div class="form-group">
-                                                    <label for="inputState" class="col-form-label">Transfer Department</label>
-                                                    <select id="inputState" required="required" name="doc_dept" class="form-control">
-                                                        <option>Choose</option>
-                                                        <option>Patient Registration</option>
-                                                        <option>Laboratory</option>
-                                                        <option>Pharmacy</option>
-                                                        <option>Accounting</option>
-                                                        <option>Surgery | Theatre</option>
-                                                    </select>
-                                            </div>                                         
+                                                <label for="inputState" class="col-form-label">Transfer Department</label>
+                                                <select id="inputState" required="required" name="doc_dept" class="form-control">
+                                                    <option value="">Choose Department</option>
+                                                    <?php
+                                                    while ($dept = $dept_result->fetch_object()) {
+                                                        echo "<option value='$dept->dept_name'>$dept->dept_name</option>";
+                                                    }
+                                                    ?>
+                                                    <option value="Reception">Reception</option> <!-- Ensure Reception is an option -->
+                                                </select>
+                                            </div>                                 
 
                                             <button type="submit" name="trans_dept" class="ladda-button btn btn-success" data-style="expand-right">Transfer Employee</button>
 

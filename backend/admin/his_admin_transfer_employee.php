@@ -106,34 +106,57 @@
                                             </tr>
                                             </thead>
                                             <?php
-                                            /*
-                                                *get details of allpatients
-                                                *
-                                            */
-                                                $ret="SELECT * FROM  his_docs ORDER BY RAND() "; 
-                                                //sql code to get to ten docs  randomly
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                            ?>
+                                                $ret = "(SELECT 
+                                                        'doctor' AS type, 
+                                                        doc_id AS id, 
+                                                        doc_fname AS fname, 
+                                                        doc_lname AS lname, 
+                                                        doc_number AS number, 
+                                                        doc_dept AS dept, 
+                                                        doc_email AS email 
+                                                    FROM his_docs)
+                                                    UNION ALL
+                                                    (SELECT 
+                                                        'receptionist' AS type, 
+                                                        receptionist_id AS id, 
+                                                        receptionist_fname AS fname,
+                                                        receptionist_lname AS lname,
+                                                        receptionist_phone AS number,
+                                                        'Reception' AS dept,
+                                                        receptionist_email AS email 
+                                                    FROM his_receptionists)
+                                                    ORDER BY RAND()";
 
-                                                <tbody>
+                                                $stmt = $mysqli->prepare($ret);
+                                                $stmt->execute();
+                                                $res = $stmt->get_result();
+                                                $cnt = 1;
+                                                
+                                                while ($row = $res->fetch_object()) {
+                                            ?>
                                                 <tr>
-                                                    <td><?php echo $cnt;?></td>
-                                                    <td><?php echo $row->doc_fname;?> <?php echo $row->doc_lname;?></td>
-                                                    <td><?php echo $row->doc_number;?></td>
-                                                    <td><?php echo $row->doc_dept;?></td>
-                                                    <td><?php echo $row->doc_email;?></td>
-                                                    
+                                                    <td><?php echo $cnt; ?></td>
+                                                    <td><?php echo $row->fname . ' ' . $row->lname; ?></td>
+                                                    <td><?php echo $row->number ?? 'N/A'; ?></td>
+                                                    <td><?php echo $row->dept; ?></td>
+                                                    <td><?php echo $row->email; ?></td>
                                                     <td>
-                                                        <a href="his_admin_transfer_single_employee.php?doc_number=<?php echo $row->doc_number;?>" class="badge badge-warning"><i class="mdi mdi-check-box-outline "></i> Transfer Employee</a>
+                                                        <?php if ($row->type == 'doctor') { ?>
+                                                            <a href="his_admin_transfer_single_employee.php?doc_number=<?php echo $row->number; ?>" 
+                                                            class="badge badge-warning">
+                                                            <i class="mdi mdi-check-box-outline"></i> Transfer
+                                                            </a>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-secondary">
+                                                                <i class="mdi mdi-lock"></i> Fixed Department
+                                                            </span>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
-                                                </tbody>
-                                            <?php  $cnt = $cnt +1 ; }?>
+                                            <?php 
+                                                $cnt++;
+                                                } 
+                                            ?>
                                             <tfoot>
                                             <tr class="active">
                                                 <td colspan="8">

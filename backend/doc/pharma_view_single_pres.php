@@ -95,6 +95,19 @@
                                                         <?php echo $row->pres_ins;?>
                                                     </p>
                                                     <hr>
+                                                    <!-- Add this after the patient information -->
+                                                    <h3 class="text-danger ">Prescription Status: 
+                                                        <span class="badge badge-<?php echo ($row->pres_status == 'Done') ? 'success' : 'danger'; ?>">
+                                                            <?php echo $row->pres_status; ?>
+                                                        </span>
+                                                    </h3>
+                                                    <hr>
+
+                                                    <!-- Add this button somewhere in the layout -->
+                                                    <a href="update_pres_status.php?pres_id=<?php echo $row->pres_id; ?>&status=<?php echo ($row->pres_status == 'Pending') ? 'Done' : 'Pending'; ?>" 
+                                                    class="btn btn-<?php echo ($row->pres_status == 'Pending') ? 'success' : 'warning'; ?>">
+                                                        <?php echo ($row->pres_status == 'Pending') ? 'Mark as Done' : 'Mark as Pending'; ?>
+                                                    </a>
                                                    <!--
                                                     <form class="form-inline mb-4">
                                                         <label class="my-1 mr-2" for="quantityinput">Quantity</label>

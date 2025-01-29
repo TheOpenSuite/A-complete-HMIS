@@ -83,7 +83,7 @@
                                                 <th data-hide="phone">Patient Address</th>
                                                 <th data-hide="phone">Patient Ailment</th>
                                                 <th data-hide="phone">Patient Age</th>
-                                                <th data-hide="phone">Patient Category</th>
+                                                <th data-hide="phone">Prescription Status</th>
                                                 <th data-hide="phone">Action</th>
                                             </tr>
                                             </thead>
@@ -92,8 +92,7 @@
                                                 *get details of allpatients
                                                 *
                                             */
-                                                $ret="SELECT * FROM  his_prescriptions ORDER BY RAND() "; 
-                                                //sql code to get to ten docs  randomly
+                                                $ret = "SELECT * FROM his_prescriptions ORDER BY pres_date DESC";                                                 //sql code to get to ten docs  randomly
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 $stmt->execute() ;//ok
                                                 $res=$stmt->get_result();
@@ -110,7 +109,7 @@
                                                     <td><?php echo $row->pres_pat_addr;?></td>
                                                     <td><?php echo $row->pres_pat_ailment;?></td>
                                                     <td><?php echo $row->pres_pat_age;?> Years</td>
-                                                    <td><?php echo $row->pres_pat_type;?></td>
+                                                    <td><?php echo $row->pres_status;?></td>
                                                     
                                                     <td><a href="pharma_view_single_pres.php?pres_number=<?php echo $row->pres_number;?>&&pres_id=<?php echo $row->pres_id;?>" class="badge badge-success"><i class="fas fa-eye"></i> View Prescription</a></td>
                                                 </tr>
@@ -165,6 +164,16 @@
 
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
+
+        <script >
+            // Add this after the existing foo-tables.init.js script
+            $(document).ready(function() {
+                $('#status-filter').change(function() {
+                    var status = $(this).val();
+                    $('#demo-foo-filtering').DataTable().column(6).search(status).draw();
+                });
+            });
+        </script>
         
     </body>
 

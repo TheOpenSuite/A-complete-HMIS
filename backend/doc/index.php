@@ -5,18 +5,18 @@
     {
         $doc_number = $_POST['doc_number'];
         //$doc_email = $_POST['doc_ea']
-        $doc_pwd = sha1(md5($_POST['doc_pwd']));//double encrypt to increase security
-        $stmt=$mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE  doc_number=? AND doc_pwd=? ");//sql to log in user
-        $stmt->bind_param('ss', $doc_number, $doc_pwd);//bind fetched parameters
+        $doc_pwd = $_POST['doc_pwd'];
+        $stmt=$mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE  doc_number=?");//sql to log in user
+        $stmt->bind_param('s', $doc_number);//bind fetched parameters
         $stmt->execute();//execute bind
-        $stmt -> bind_result($doc_number, $doc_pwd ,$doc_id);//bind result
-        $rs=$stmt->fetch();
-        $_SESSION['doc_id'] = $doc_id;
-        $_SESSION['doc_number'] = $doc_number;//assaign session to doc_number id
+        $stmt -> bind_result($doc_number, $hashed_password ,$doc_id);//bind result
+        $stmt->fetch();
         //$uip=$_SERVER['REMOTE_ADDR'];
         //$ldate=date('d/m/Y h:i:s', time());
-        if($rs)
+        if(password_verify($doc_pwd, $hashed_password))
             {//if its sucessfull
+                $_SESSION['doc_id'] = $doc_id;
+                $_SESSION['doc_number'] = $doc_number;//assaign session to doc_number id
                 header("location:his_doc_dashboard.php");
             }
 

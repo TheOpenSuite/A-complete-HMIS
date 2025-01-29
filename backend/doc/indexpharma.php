@@ -4,25 +4,30 @@ include('assets/inc/config.php'); // Get configuration file
 
 if (isset($_POST['doc_login'])) {
     $doc_number = $_POST['doc_number'];
-    $doc_pwd = sha1(md5($_POST['doc_pwd'])); // Double encrypt to increase security
+    $doc_pwd = $_POST['doc_pwd'];
 
     // Updated SQL query to check for doc_dept='pharmacy'
-    $stmt = $mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE doc_number=? AND doc_pwd=? AND doc_dept='pharmacy'");
+    $stmt = $mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE doc_number=? AND doc_dept='pharmacy'");
 
     // Bind fetched parameters
-    $stmt->bind_param('ss', $doc_number, $doc_pwd);
+    $stmt->bind_param('s', $doc_number);
     $stmt->execute(); // Execute bind
-    $stmt->bind_result($doc_number, $doc_pwd, $doc_id); // Bind result
+    $stmt->bind_result($doc_number, $hashed_password, $doc_id); // Bind result
 
-    $rs = $stmt->fetch(); // Fetch the result
+    $stmt->fetch(); // Fetch the result
 
     // If the query is successful (a match is found)
-    if ($rs) {
+    if(password_verify($doc_pwd, $hashed_password))
+    {//if its sucessfull
         $_SESSION['doc_id'] = $doc_id;
-        $_SESSION['doc_number'] = $doc_number; // Assign session to doc_number
-        header("location: pharma_view_presc.php"); // Redirect to prescription view
-    } else {
-        $err = "Access Denied. Please check your credentials or department.";
+        $_SESSION['doc_number'] = $doc_number;//assaign session to doc_number id
+        header("location:pharma_view_presc.php");
+    }
+
+else
+    {
+    #echo "<script>alert('Access Denied Please Check Your Credentials');</script>";
+        $err = "Access Denied Please Check Your Credentials";
     }
 }
 ?>

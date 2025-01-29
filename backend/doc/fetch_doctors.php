@@ -20,6 +20,7 @@ if(isset($_GET['dept'])) {
     // Check if doctors exist in this department
     if($result->num_rows > 0) {
         // Loop through the doctors and create <option> elements
+        echo "<option value='random'>Random (Least Busy)</option>";
         while($row = $result->fetch_assoc()) {
             echo "<option value='" . $row['doc_id'] . "'>" . $row['doc_fname'] . " " . $row['doc_lname'] . "</option>";
         }

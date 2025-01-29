@@ -7,7 +7,14 @@
   if(isset($_GET['delete']))
   {
         $id=intval($_GET['delete']);
-        $adn="delete from his_docs where doc_id=?";
+        $type = $_GET['type'];
+        if ($type == 'doctor') {
+            $adn="delete from his_docs where doc_id=?";
+        } elseif ($type == 'receptionist') {
+            $adn="delete from his_receptionists where receptionist_id=?";
+        } else {
+            $err = "Invalid employee type";
+        }
         $stmt= $mysqli->prepare($adn);
         $stmt->bind_param('i',$id);
         $stmt->execute();
@@ -104,36 +111,64 @@
                                             </tr>
                                             </thead>
                                             <?php
-                                            /*
-                                                *get details of allpatients
-                                                *
-                                            */
-                                                $ret="SELECT * FROM  his_docs ORDER BY RAND() "; 
-                                                //sql code to get to ten docs  randomly
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                            ?>
+                                                $ret = "(SELECT 
+                                                        'doctor' AS type, 
+                                                        doc_id AS id, 
+                                                        doc_fname AS fname, 
+                                                        doc_lname AS lname, 
+                                                        doc_number AS number, 
+                                                        doc_dept AS dept, 
+                                                        doc_email AS email 
+                                                    FROM his_docs)
+                                                    UNION ALL
+                                                    (SELECT 
+                                                        'receptionist' AS type, 
+                                                        receptionist_id AS id, 
+                                                        receptionist_fname AS fname,
+                                                        receptionist_lname AS lname,
+                                                        'NULL' AS number,
+                                                        'Reception' AS dept,
+                                                        receptionist_email AS email 
+                                                    FROM his_receptionists)
+                                                    ORDER BY RAND()";
 
-                                                <tbody>
+                                                $stmt = $mysqli->prepare($ret);
+                                                if (!$stmt) {
+                                                    die("Error preparing statement: " . $mysqli->error);
+                                                }
+                                                $stmt->execute();
+                                                $res = $stmt->get_result();
+                                                $cnt = 1;
+                                                
+                                                while ($row = $res->fetch_object()) {
+                                            ?>
                                                 <tr>
-                                                    <td><?php echo $cnt;?></td>
-                                                    <td><?php echo $row->doc_fname;?> <?php echo $row->doc_lname;?></td>
-                                                    <td><?php echo $row->doc_number;?></td>
-                                                    <td><?php echo $row->doc_dept;?></td>
-                                                    <td><?php echo $row->doc_email;?></td>
-                                                    
+                                                    <td><?php echo $cnt; ?></td>
+                                                    <td><?php echo $row->fname . ' ' . $row->lname; ?></td>
+                                                    <td><?php echo $row->number ?? 'N/A'; ?></td>
+                                                    <td><?php echo $row->dept; ?></td>
+                                                    <td><?php echo $row->email; ?></td>
                                                     <td>
-                                                        <a href="his_admin_manage_employee.php?delete=<?php echo $row->doc_id;?>" class="badge badge-danger"><i class=" mdi mdi-trash-can-outline "></i> Delete</a>
-                                                        <a href="his_admin_view_single_employee.php?doc_number=<?php echo $row->doc_number;?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a>
-                                                        <a href="his_admin_update_single_employee.php?doc_number=<?php echo $row->doc_number;?>" class="badge badge-primary"><i class="mdi mdi-check-box-outline "></i> Update</a>
+                                                        <a href="his_admin_manage_employee.php?delete=<?php echo $row->id; ?>&type=<?php echo $row->type; ?>" 
+                                                        class="badge badge-danger">
+                                                        <i class="mdi mdi-trash-can-outline"></i> Delete
+                                                        </a>
+                                                        <?php if ($row->type == 'doctor') { ?>
+                                                            <a href="his_admin_view_single_employee.php?doc_number=<?php echo $row->number; ?>" 
+                                                            class="badge badge-success">
+                                                            <i class="mdi mdi-eye"></i> View
+                                                            </a>
+                                                            <a href="his_admin_update_single_employee.php?doc_number=<?php echo $row->number; ?>" 
+                                                            class="badge badge-primary">
+                                                            <i class="mdi mdi-check-box-outline"></i> Update
+                                                            </a>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
-                                                </tbody>
-                                            <?php  $cnt = $cnt +1 ; }?>
+                                            <?php 
+                                                $cnt++;
+                                                } 
+                                            ?>
                                             <tfoot>
                                             <tr class="active">
                                                 <td colspan="8">

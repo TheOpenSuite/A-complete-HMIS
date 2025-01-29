@@ -16,7 +16,31 @@ if(isset($_POST['add_patient'])) {
     $pat_dept = $_POST['pat_dept'];  // New field for department
     $pat_doc_id = $_POST['pat_doc_id'];  // New field for doctor
 
-    // SQL to insert captured values
+    // Handle "Random" doctor selection
+    if ($pat_doc_id === 'random') {
+        $stmt = $mysqli->prepare("
+            SELECT d.doc_id, COUNT(p.pat_id) AS patient_count 
+            FROM his_docs d 
+            LEFT JOIN his_patients p ON d.doc_id = p.pat_doc_id 
+            WHERE d.doc_dept = ? 
+            GROUP BY d.doc_id 
+            ORDER BY patient_count ASC, d.doc_id ASC 
+            LIMIT 1
+        ");
+        $stmt->bind_param('s', $pat_dept);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            $err = "No doctors available in the selected department.";
+            header("Location: recep_register_patient.php?err=" . urlencode($err));
+            exit();
+        }
+        $row = $result->fetch_assoc();
+        $pat_doc_id = $row['doc_id'];
+    }
+
+    // Insert patient into database
     $query = "INSERT INTO his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr, pat_dept, pat_doc_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
     $rc = $stmt->bind_param('ssssssssssi', $pat_fname, $pat_ailment, $pat_lname, $pat_age, $pat_dob, $pat_number, $pat_phone, $pat_type, $pat_addr, $pat_dept, $pat_doc_id);
@@ -138,7 +162,7 @@ if(isset($_POST['add_patient'])) {
                                                 <option value="">Select Department</option>
                                                 <?php
                                                     // Fetch departments dynamically from the his_departments table
-                                                    $deptQuery = "SELECT dept_name FROM his_departments";
+                                                    $deptQuery = "SELECT dept_name FROM his_departments WHERE dept_name != 'Reception'";
                                                     $deptResult = $mysqli->query($deptQuery);
                                                     while($row = $deptResult->fetch_assoc()) {
                                                         echo "<option value='" . $row['dept_name'] . "'>" . $row['dept_name'] . "</option>";

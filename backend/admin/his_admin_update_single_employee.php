@@ -1,37 +1,53 @@
 <?php
-	session_start();
-	include('assets/inc/config.php');
-		if(isset($_POST['update_doc']))
-		{
-			$doc_fname=$_POST['doc_fname'];
-			$doc_lname=$_POST['doc_lname'];
-			$doc_number=$_GET['doc_number'];
-            $doc_email=$_POST['doc_email'];
-            $doc_pwd=sha1(md5($_POST['doc_pwd']));
-            $doc_dpic=$_FILES["doc_dpic"]["name"];
-		    move_uploaded_file($_FILES["doc_dpic"]["tmp_name"],"../doc/assets/images/users/".$_FILES["doc_dpic"]["name"]);
+session_start();
+include('assets/inc/config.php');
 
-            //sql to insert captured values
-			$query="UPDATE his_docs SET doc_fname=?, doc_lname=?,  doc_email=?, doc_pwd=?, doc_dpic=? WHERE doc_number = ?";
-			$stmt = $mysqli->prepare($query);
-			$rc=$stmt->bind_param('ssssss', $doc_fname, $doc_lname, $doc_email, $doc_pwd, $doc_dpic, $doc_number);
-			$stmt->execute();
-			/*
-			*Use Sweet Alerts Instead Of This Fucked Up Javascript Alerts
-			*echo"<script>alert('Successfully Created Account Proceed To Log In ');</script>";
-			*/ 
-			//declare a varible which will be passed to alert function
-			if($stmt)
-			{
-				$success = "Employee Details Updated";
-			}
-			else {
-				$err = "Please Try Again Or Try Later";
-			}
-			
-			
-		}
+if(isset($_POST['update_doc'])) {
+    $doc_fname = $_POST['doc_fname'];
+    $doc_lname = $_POST['doc_lname'];
+    $doc_number = $_GET['doc_number'];
+    $doc_email = $_POST['doc_email'];
+    
+    // Build SET clause components
+    $setParts = array(
+        "doc_fname=?",
+        "doc_lname=?",
+        "doc_email=?"
+    );
+    
+    $params = array($doc_fname, $doc_lname, $doc_email);
+    $types = 'sss';
+
+    // Handle password update
+    if (!empty($_POST['doc_pwd'])) {
+        $setParts[] = "doc_pwd=?";
+        $params[] = password_hash($_POST['doc_pwd'], PASSWORD_DEFAULT);
+        $types .= 's';
+    }
+
+    // Add WHERE clause parameter
+    $params[] = $doc_number;
+    $types .= 's';
+
+    // Build final query
+    $setClause = implode(', ', $setParts);
+    $query = "UPDATE his_docs SET $setClause WHERE doc_number = ?";
+
+    // Prepare and execute statement
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param($types, ...$params);
+    $result = $stmt->execute();
+
+    if ($result) {
+        $success = "Employee Details Updated Successfully";
+    } else {
+        $err = "Error updating record: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
 ?>
+
 <!--End Server Side-->
 <!DOCTYPE html>
 <html lang="en">
@@ -82,7 +98,7 @@
                             $doc_number=$_GET['doc_number'];
                             $ret="SELECT  * FROM his_docs WHERE doc_number=?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$doc_number);
+                            $stmt->bind_param('s',$doc_number);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
                             //$cnt=1;
@@ -115,13 +131,9 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputCity" class="col-form-label">Password</label>
-                                                    <input required="required"  type="password" name="doc_pwd" class="form-control" id="inputCity">
+                                                    <input type="password" name="doc_pwd" class="form-control" id="inputCity">
                                                 </div> 
                                                 
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputCity" class="col-form-label">Profile Picture</label>
-                                                    <input required="required"  type="file" name="doc_dpic" class="btn btn-success form-control"  id="inputCity">
-                                                </div>
                                             </div>                                            
 
                                             <button type="submit" name="update_doc" class="ladda-button btn btn-success" data-style="expand-right">Add Employee</button>
