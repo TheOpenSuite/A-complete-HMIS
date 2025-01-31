@@ -2,6 +2,6 @@
 $dbuser="root";
 $dbpass="";
 $host="localhost";
-$db="martdevelopers_his";
+$db="HMS";
 $mysqli=new mysqli($host,$dbuser, $dbpass, $db);
 ?>

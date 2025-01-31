@@ -23,6 +23,7 @@ if(isset($_POST['add_patient'])) {
             FROM his_docs d 
             LEFT JOIN his_patients p ON d.doc_id = p.pat_doc_id 
             WHERE d.doc_dept = ? 
+            AND CURTIME() BETWEEN d.doc_start_time AND d.doc_end_time
             GROUP BY d.doc_id 
             ORDER BY patient_count ASC, d.doc_id ASC 
             LIMIT 1
@@ -32,13 +33,64 @@ if(isset($_POST['add_patient'])) {
         $result = $stmt->get_result();
         
         if ($result->num_rows === 0) {
-            $err = "No doctors available in the selected department.";
+            // Check the next available time
+            $nextAvailableStmt = $mysqli->prepare("
+                SELECT MIN(doc_start_time) AS next_start
+                FROM his_docs 
+                WHERE doc_dept = ? AND doc_start_time > CURTIME()
+            ");
+            $nextAvailableStmt->bind_param('s', $pat_dept);
+            $nextAvailableStmt->execute();
+            $nextResult = $nextAvailableStmt->get_result();
+            $nextRow = $nextResult->fetch_assoc();
+        
+            if ($nextRow['next_start']) {
+                $nextTime = date("h:i A", strtotime($nextRow['next_start']));
+                $err = "No doctors available. Next slot: " . $nextTime . ". Schedule an appointment?";
+            } else {
+                $earliestStmt = $mysqli->prepare("
+                    SELECT MIN(doc_start_time) AS earliest_start
+                    FROM his_docs 
+                    WHERE doc_dept = ?
+                ");
+                $earliestStmt->bind_param('s', $pat_dept);
+                $earliestStmt->execute();
+                $earliestResult = $earliestStmt->get_result();
+                $earliestRow = $earliestResult->fetch_assoc();
+                $nextTime = date("h:i A", strtotime($earliestRow['earliest_start']));
+                $err = "No doctors today. Next available: tomorrow at " . $nextTime . ". Schedule?";
+            }
+            
             header("Location: recep_register_patient.php?err=" . urlencode($err));
             exit();
         }
         $row = $result->fetch_assoc();
         $pat_doc_id = $row['doc_id'];
     }
+
+    if ($pat_doc_id !== 'random') {
+        $stmt = $mysqli->prepare("
+            SELECT doc_start_time, doc_end_time 
+            FROM his_docs 
+            WHERE doc_id = ?
+        ");
+        $stmt->bind_param('i', $pat_doc_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows > 0) {
+            $doc = $result->fetch_assoc();
+            $current_time = date('H:i:s');
+    
+            if ($current_time < $doc['doc_start_time'] || $current_time > $doc['doc_end_time']) {
+                $err = "Doctor is unavailable at this time. Please choose another doctor or schedule an appointment.";
+                header("Location: recep_register_patient.php?err=" . urlencode($err));
+                exit();
+            }
+        }
+    }
+    
+    
 
     // Insert patient into database
     $query = "INSERT INTO his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr, pat_dept, pat_doc_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -88,10 +140,21 @@ if(isset($_POST['add_patient'])) {
                     <!-- end page title -->
                      <!-- Button for existing patient -->
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-auto">
                             <a href="existing_patient.php" class="btn btn-warning">Existing Patient?</a>
                         </div>
+                        <div class="col-auto">
+                            <a href="schedule_appointment.php" class="btn btn-warning">Schedule  Patient</a>
+                        </div>
                     </div>
+                    
+
+                    <?php if(isset($_GET['err'])) { ?>
+                        <div class="alert alert-danger">
+                            <?php echo htmlspecialchars($_GET['err']); ?>
+                            <a href="schedule_appointment.php?dept=<?php echo urlencode($_POST['pat_dept'] ?? ''); ?>" class="btn btn-secondary ml-2">Schedule Appointment</a>
+                        </div>
+                    <?php } ?>
 
                     <!-- Form row -->
                     <div class="row">
@@ -162,7 +225,7 @@ if(isset($_POST['add_patient'])) {
                                                 <option value="">Select Department</option>
                                                 <?php
                                                     // Fetch departments dynamically from the his_departments table
-                                                    $deptQuery = "SELECT dept_name FROM his_departments WHERE dept_name != 'Reception'";
+                                                    $deptQuery = "SELECT dept_name FROM his_departments WHERE dept_name != 'Reception' AND dept_name != 'Pharmacy'";
                                                     $deptResult = $mysqli->query($deptQuery);
                                                     while($row = $deptResult->fetch_assoc()) {
                                                         echo "<option value='" . $row['dept_name'] . "'>" . $row['dept_name'] . "</option>";

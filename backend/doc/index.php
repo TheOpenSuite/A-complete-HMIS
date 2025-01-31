@@ -6,7 +6,7 @@
         $doc_number = $_POST['doc_number'];
         //$doc_email = $_POST['doc_ea']
         $doc_pwd = $_POST['doc_pwd'];
-        $stmt=$mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE  doc_number=?");//sql to log in user
+        $stmt=$mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE  doc_number=? AND doc_dept!='pharmacy'");//sql to log in user
         $stmt->bind_param('s', $doc_number);//bind fetched parameters
         $stmt->execute();//execute bind
         $stmt -> bind_result($doc_number, $hashed_password ,$doc_id);//bind result

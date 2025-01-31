@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Aug 30, 2021 at 07:50 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Host: 127.0.0.1
+-- Generation Time: Jan 31, 2025 at 02:13 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `martdevelopers_his`
+-- Database: `HMS`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `his_accounts` (
   `acc_type` varchar(200) DEFAULT NULL,
   `acc_number` varchar(200) DEFAULT NULL,
   `acc_amount` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_accounts`
@@ -57,14 +57,58 @@ CREATE TABLE `his_admin` (
   `ad_email` varchar(200) DEFAULT NULL,
   `ad_pwd` varchar(200) DEFAULT NULL,
   `ad_dpic` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_admin`
 --
 
 INSERT INTO `his_admin` (`ad_id`, `ad_fname`, `ad_lname`, `ad_email`, `ad_pwd`, `ad_dpic`) VALUES
-(1, 'System', 'Administrator', 'sysadmin@hmis.org', 'a69681bcf334ae130217fea4505fd3c994f5683f', 'doctor_admin_icon_4-512.png');
+(1, 'System', 'Administrator', 'admin@admin.com', '$2y$10$aZHjiEzieE1ibs7nwm7FEu4G8DXgoaFx8PwsadIb83ZXAzKhsDjPy', 'doctor_admin_icon_4-512.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_appointment`
+--
+
+CREATE TABLE `his_appointment` (
+  `id` int(20) NOT NULL,
+  `pat_fname` varchar(200) DEFAULT NULL,
+  `pat_lname` varchar(200) DEFAULT NULL,
+  `pat_phone` varchar(200) NOT NULL,
+  `pat_dept` varchar(200) DEFAULT NULL,
+  `pat_doc_id` int(20) DEFAULT NULL,
+  `schedule_time` datetime NOT NULL,
+  `status` varchar(200) DEFAULT 'pending',
+  `pat_dob` date DEFAULT NULL,
+  `pat_age` int(3) DEFAULT NULL,
+  `pat_addr` varchar(200) DEFAULT NULL,
+  `pat_ailment` varchar(200) DEFAULT NULL,
+  `pat_type` varchar(200) DEFAULT NULL,
+  `pat_number` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_appointments`
+--
+
+CREATE TABLE `his_appointments` (
+  `pat_id` int(20) NOT NULL,
+  `doc_id` int(20) NOT NULL,
+  `app_date` date NOT NULL,
+  `app_time` time NOT NULL,
+  `status` enum('scheduled','completed','canceled') DEFAULT 'scheduled',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `pat_dob` date DEFAULT NULL,
+  `pat_age` int(11) DEFAULT NULL,
+  `pat_addr` varchar(200) DEFAULT NULL,
+  `pat_ailment` varchar(200) DEFAULT NULL,
+  `pat_type` varchar(200) DEFAULT NULL,
+  `pat_number` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -79,7 +123,28 @@ CREATE TABLE `his_assets` (
   `asst_vendor` varchar(200) DEFAULT NULL,
   `asst_status` varchar(200) DEFAULT NULL,
   `asst_dept` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_departments`
+--
+
+CREATE TABLE `his_departments` (
+  `dept_id` int(20) NOT NULL,
+  `dept_name` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `his_departments`
+--
+
+INSERT INTO `his_departments` (`dept_id`, `dept_name`) VALUES
+(1, 'Surgery'),
+(2, 'Pharmacy'),
+(3, 'Reception'),
+(4, 'General');
 
 -- --------------------------------------------------------
 
@@ -93,18 +158,25 @@ CREATE TABLE `his_docs` (
   `doc_lname` varchar(200) DEFAULT NULL,
   `doc_email` varchar(200) DEFAULT NULL,
   `doc_pwd` varchar(200) DEFAULT NULL,
-  `doc_dept` varchar(200) DEFAULT NULL,
+  `doc_dept` varchar(200) NOT NULL,
   `doc_number` varchar(200) DEFAULT NULL,
-  `doc_dpic` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `doc_dpic` varchar(200) DEFAULT NULL,
+  `doc_start_time` time DEFAULT NULL,
+  `doc_end_time` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_docs`
 --
 
-INSERT INTO `his_docs` (`doc_id`, `doc_fname`, `doc_lname`, `doc_email`, `doc_pwd`, `doc_dept`, `doc_number`, `doc_dpic`) VALUES
-(3, 'purity', 'nduku', 'puritynduku@gmail.com', 'a69681bcf334ae130217fea4505fd3c994f5683f', NULL, '65YSD', NULL),
-(4, 'mr wilson', 'musyoka', 'sysadmin@hmis.org', 'a69681bcf334ae130217fea4505fd3c994f5683f', NULL, 'Y0F9K', NULL);
+INSERT INTO `his_docs` (`doc_id`, `doc_fname`, `doc_lname`, `doc_email`, `doc_pwd`, `doc_dept`, `doc_number`, `doc_dpic`, `doc_start_time`, `doc_end_time`) VALUES
+(3, 'purity', 'nduku', 'puritynduku@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', 'Surgery', '65YSD', NULL, '06:00:00', '18:00:00'),
+(4, 'mr wilson', 'musyoka', 'wilson@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', '', 'Y0F9K', NULL, NULL, NULL),
+(5, 'test', 'test', 'mark@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', 'Surgery', '2Z1A5', NULL, '01:38:56', '23:38:56'),
+(6, 'teste', 'teste', 'test@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', 'Pharmacy', 'FE4CY', NULL, NULL, NULL),
+(12, 'a', 'a', 'a@a.a', '$2y$10$HEgMiqEbMQ4xlRe0EV8I5OVAnijeEXICQes0zHRUPO70WHpMPktlO', 'General', 'IS9WE', NULL, NULL, NULL),
+(14, 'testdoc', 'testdoc', 'test@doc.com', '$2y$10$y0j4MQY8Qf6zI9ez1qr3au3lmP1Y69Gwhv5eklWI3e4/ioGuyMwIm', 'Surgery', 'QG9VH', NULL, '00:00:00', '01:00:00'),
+(15, 'test', 'test', 'test@test.test', '$2y$10$aZHjiEzieE1ibs7nwm7FEu4G8DXgoaFx8PwsadIb83ZXAzKhsDjPy', 'General', 'HYUEN', NULL, '06:06:00', '18:07:00');
 
 -- --------------------------------------------------------
 
@@ -121,7 +193,7 @@ CREATE TABLE `his_equipments` (
   `eqp_dept` varchar(200) DEFAULT NULL,
   `eqp_status` varchar(200) DEFAULT NULL,
   `eqp_qty` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_equipments`
@@ -145,17 +217,20 @@ CREATE TABLE `his_laboratory` (
   `lab_pat_tests` longtext DEFAULT NULL,
   `lab_pat_results` longtext DEFAULT NULL,
   `lab_number` varchar(200) DEFAULT NULL,
+  `lab_doc_id` int(20) NOT NULL,
   `lab_date_rec` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_laboratory`
 --
 
-INSERT INTO `his_laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_pat_number`, `lab_pat_tests`, `lab_pat_results`, `lab_number`, `lab_date_rec`) VALUES
-(1, 'Lorem Ipsum ', 'Flu', '7EW0L', '<ul><li><a href=\"https://www.medicalnewstoday.com/articles/179211.php\">Non-steroidal anti-inflammatory drugs</a> (NSAIDs) such as <a href=\"https://www.medicalnewstoday.com/articles/161255.php\">aspirin</a> or ibuprofen can help bring a fever down. These are available to purchase over-the-counter or <a target=\"_blank\" href=\"https://amzn.to/2qp3d0b\">online</a>. However, a mild fever may be helping combat the bacterium or virus that is causing the infection. It may not be ideal to bring it down.</li><li>If the fever has been caused by a bacterial infection, the doctor may prescribe an <a href=\"https://www.medicalnewstoday.com/articles/10278.php\">antibiotic</a>.</li><li>If a fever has been caused by a cold, which is caused by a viral infection, NSAIDs may be used to relieve uncomfortable symptoms. Antibiotics have no effect against viruses and will not be prescribed by your doctor for a viral infection.</li></ul>', '<ul><li>If the fever has been caused by a bacterial infection, the doctor may prescribe an <a href=\"https://www.medicalnewstoday.com/articles/10278.php\">antibiotic</a>.</li><li>If a fever has been caused by a cold, which is caused by a viral infection, NSAIDs may be used to relieve uncomfortable symptoms. Antibiotics have no effect against viruses and will not be prescribed by your doctor for a viral infection.</li></ul>', 'K67PL', '2020-01-12 13:32:07'),
-(2, 'Mart Developers', 'Fever', '6P8HJ', '<ul><li>Body temperature</li><li>Blood</li><li>Stool</li><li>Urine</li></ul>', '<ul><li>Body Temperature 67 Degree Celcious(Abnormal)</li><li>Blood - Malaria Bacterial Tested Postive</li><li>Stool - Mucus tested postive</li><li>Urine -Urea Level were 20% higher than normal</li></ul><p><strong>Fever Tested Positive</strong></p>', '9DMN5', '2020-01-12 13:41:07'),
-(3, 'John Doe', 'Malaria', 'RAV6C', '<p><strong>Pain areas: </strong>in the abdomen or muscles</p><p><strong>Whole body: </strong>chills, fatigue, fever, night sweats, shivering, or sweating</p><p><strong>Gastrointestinal: </strong>diarrhoea, nausea, or vomiting</p><p><strong>Also common: </strong>fast heart rate, headache, mental confusion, or pallor</p>', '<p><strong>Pain areas: </strong>in the abdomen or muscles -Tested Positive</p><p><strong>Whole body: </strong>chills, fatigue, fever, night sweats, shivering, or sweating - Tested Positive</p><p><strong>Gastrointestinal: </strong>diarrhoea, nausea, or vomiting - Tested Positive</p><p>&nbsp;</p>', '90ZNX', '2020-01-13 12:31:48');
+INSERT INTO `his_laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_pat_number`, `lab_pat_tests`, `lab_pat_results`, `lab_number`, `lab_doc_id`, `lab_date_rec`) VALUES
+(4, 'Morsyyyyyyyyyyyyyyy Sayaaaaaaa7', 'idfk', '6VUE2', '<p>lmaoooo</p>', '<p>wlamm</p>', 'ADPVR', 5, '2024-12-26 12:38:56'),
+(5, 'tayb mashy', '2', '091HI', '<p>test</p>', NULL, 'FC4JR', 1, '2024-12-26 13:33:49'),
+(14, 'last test', 'dead', 'WOD9J', '<p>sex</p>', '<p>awy</p>', '2ADQZ', 5, '2024-12-26 13:33:21'),
+(15, 'ana tbt', '222', 'UW5DH', '<p>test</p>', '<p>test</p>', '654EV', 5, '2024-12-28 12:42:40'),
+(16, 'finale elanif', 'fever', 'K5E1A', '<p>blood</p>', '<p>blue</p>', '5I0A7', 5, '2024-12-28 13:03:49');
 
 -- --------------------------------------------------------
 
@@ -173,7 +248,7 @@ CREATE TABLE `his_medical_records` (
   `mdr_pat_number` varchar(200) DEFAULT NULL,
   `mdr_pat_prescr` longtext DEFAULT NULL,
   `mdr_date_rec` timestamp(4) NOT NULL DEFAULT current_timestamp(4) ON UPDATE current_timestamp(4)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_medical_records`
@@ -192,25 +267,32 @@ CREATE TABLE `his_patients` (
   `pat_id` int(20) NOT NULL,
   `pat_fname` varchar(200) DEFAULT NULL,
   `pat_lname` varchar(200) DEFAULT NULL,
-  `pat_dob` varchar(200) DEFAULT NULL,
-  `pat_age` varchar(200) DEFAULT NULL,
+  `pat_dob` date DEFAULT NULL,
+  `pat_age` int(3) DEFAULT NULL,
   `pat_number` varchar(200) DEFAULT NULL,
   `pat_addr` varchar(200) DEFAULT NULL,
-  `pat_phone` varchar(200) DEFAULT NULL,
+  `pat_phone` varchar(200) NOT NULL,
   `pat_type` varchar(200) DEFAULT NULL,
+  `pat_dept` varchar(200) DEFAULT NULL,
+  `pat_doc_id` int(20) DEFAULT NULL,
   `pat_date_joined` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
   `pat_ailment` varchar(200) DEFAULT NULL,
   `pat_discharge_status` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_patients`
 --
 
-INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_number`, `pat_addr`, `pat_phone`, `pat_type`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
-(4, 'Lorem', 'Ipsum', '12/12/2010', '10', '7EW0L', '12 9001 Machakos', '0712345690', 'OutPatient', '2020-01-10 13:13:38.252985', 'Flu', ''),
-(5, 'John', 'Doe', '12/10/1990', '30', 'RAV6C', '12 900 NYE', '08907890', 'OutPatient', '2020-01-10 13:09:34.430204', 'Malaria', ''),
-(6, 'purity', 'nduku', '12062021', '25', '1DX5Z', 'machakos', '078643556', 'InPatient', '2021-08-28 11:01:37.381804', '1234', NULL);
+INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_number`, `pat_addr`, `pat_phone`, `pat_type`, `pat_dept`, `pat_doc_id`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
+(6, 'purity', 'nduku', '0000-00-00', 25, '1DX5Z', 'machakos', '078643556', 'InPatient', NULL, 3, '2024-12-26 13:34:05.395007', '1234', NULL),
+(7, 'Morsyyyyyyyyyyyyyyy', 'Sayaaaaaaa7', '0000-00-00', 23, '6VUE2', 'c', '010', 'InPatient', NULL, 5, '2024-12-28 13:23:28.948869', 'idfk', 'Returned'),
+(8, 'tayb', 'mashy', '0000-00-00', 23, '8V7IN', 'c', '12', 'InPatient', 'Surgery', 3, '2024-12-28 13:33:46.894888', '2', NULL),
+(9, 'tayb', 'mashy', '0000-00-00', 23, '091HI', 'c', '13', 'InPatient', 'Surgery', 5, '2024-12-28 13:38:44.306391', '2', NULL),
+(10, 'last', 'test', '0000-00-00', 23, 'WOD9J', 'c', '14', 'InPatient', 'Surgery', 5, '2024-12-28 13:38:46.759731', 'dead', NULL),
+(12, 'ana', 'tbt', '0000-00-00', 23, 'UW5DH', 'c', '222', 'InPatient', 'Surgery', 5, '2024-12-28 12:42:08.516669', '222', NULL),
+(13, 'finale', 'elanif', '0000-00-00', 21, 'K5E1A', 'a', '15', 'InPatient', 'Surgery', 5, '2024-12-28 13:38:49.516396', 'fever', NULL),
+(26, 'q', 'q', '3333-01-02', 1, '3YITL', '1', '06996555522222', 'InPatient', 'Surgery', 0, '2025-01-31 12:53:35.330011', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -224,15 +306,16 @@ CREATE TABLE `his_patient_transfers` (
   `t_date` varchar(200) DEFAULT NULL,
   `t_pat_name` varchar(200) DEFAULT NULL,
   `t_pat_number` varchar(200) DEFAULT NULL,
-  `t_status` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `t_status` varchar(200) DEFAULT NULL,
+  `t_doc_id` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_patient_transfers`
 --
 
-INSERT INTO `his_patient_transfers` (`t_id`, `t_hospital`, `t_date`, `t_pat_name`, `t_pat_number`, `t_status`) VALUES
-(1, 'Kenyatta National Hospital', '2020-01-11', 'Mart Developers', '9KXPM', 'Success');
+INSERT INTO `his_patient_transfers` (`t_id`, `t_hospital`, `t_date`, `t_pat_name`, `t_pat_number`, `t_status`, `t_doc_id`) VALUES
+(1, 'Kenyatta National Hospital', '2020-01-11', 'hos', '9KXPM', 'Success', 5);
 
 -- --------------------------------------------------------
 
@@ -250,14 +333,15 @@ CREATE TABLE `his_payrolls` (
   `pay_date_generated` timestamp(4) NOT NULL DEFAULT current_timestamp(4) ON UPDATE current_timestamp(4),
   `pay_status` varchar(200) DEFAULT NULL,
   `pay_descr` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_payrolls`
 --
 
 INSERT INTO `his_payrolls` (`pay_id`, `pay_number`, `pay_doc_name`, `pay_doc_number`, `pay_doc_email`, `pay_emp_salary`, `pay_date_generated`, `pay_status`, `pay_descr`) VALUES
-(2, 'HUT1B', 'Martin Mbithi', 'N8TI0', 'docmart@hmis.org', '30000', '2020-01-13 10:10:21.4162', 'Paid', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,</p>');
+(2, 'HUT1B', 'Martin Mbithi', 'N8TI0', 'pay@gmail.org', '30000', '2020-01-13 10:10:21.4162', 'Paid', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,</p>'),
+(3, 'OE2B3', 'test test', '2Z1A5', 'mark@gmail.com', '100', '2024-12-25 15:01:21.9587', 'Unpaid', '<p>a7a</p>');
 
 -- --------------------------------------------------------
 
@@ -273,7 +357,7 @@ CREATE TABLE `his_pharmaceuticals` (
   `phar_qty` varchar(200) DEFAULT NULL,
   `phar_cat` varchar(200) DEFAULT NULL,
   `phar_vendor` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_pharmaceuticals`
@@ -294,16 +378,17 @@ CREATE TABLE `his_pharmaceuticals_categories` (
   `pharm_cat_name` varchar(200) DEFAULT NULL,
   `pharm_cat_vendor` varchar(200) DEFAULT NULL,
   `pharm_cat_desc` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_pharmaceuticals_categories`
 --
 
 INSERT INTO `his_pharmaceuticals_categories` (`pharm_cat_id`, `pharm_cat_name`, `pharm_cat_vendor`, `pharm_cat_desc`) VALUES
-(1, 'Antipyretics', 'Cosmos Kenya Limited', '<ul><li>An <strong>antipyretic</strong> (<a href=\"https://en.wikipedia.org/wiki/Help:IPA/English\">/ËŒ&aelig;ntipaÉªËˆrÉ›tÉªk/</a>, from <em>anti-</em> &#39;against&#39; and <em><a href=\"https://en.wiktionary.org/wiki/pyretic\">pyretic</a></em> &#39;feverish&#39;) is a substance that reduces <a href=\"https://en.wikipedia.org/wiki/Fever\">fever</a>. Antipyretics cause the <a href=\"https://en.wikipedia.org/wiki/Hypothalamus\">hypothalamus</a> to override a <a href=\"https://en.wikipedia.org/wiki/Prostaglandin\">prostaglandin</a>-induced increase in <a href=\"https://en.wikipedia.org/wiki/Thermoregulation\">temperature</a>. The body then works to lower the temperature, which results in a reduction in fever.</li><li>Most antipyretic medications have other purposes. The most common antipyretics in the United States are <a href=\"https://en.wikipedia.org/wiki/Ibuprofen\">ibuprofen</a> and <a href=\"https://en.wikipedia.org/wiki/Aspirin\">aspirin</a>, which are <a href=\"https://en.wikipedia.org/wiki/Nonsteroidal_anti-inflammatory_drugs\">nonsteroidal anti-inflammatory drugs</a> (NSAIDs) used primarily as <a href=\"https://en.wikipedia.org/wiki/Analgesics\">analgesics</a> (pain relievers), but which also have antipyretic properties; and <a href=\"https://en.wikipedia.org/wiki/Acetaminophen\">acetaminophen</a> (paracetamol), an analgesic with weak anti-inflammatory properties.<a href=\"https://en.wikipedia.org/wiki/Antipyretic#cite_note-2\">[2]</a></li></ul>'),
-(2, 'Analgesics', 'Dawa Limited Kenya', '<ul><li><p>An <strong>analgesic</strong> or <strong>painkiller</strong> is any member of the group of <a href=\"https://en.wikipedia.org/wiki/Pharmaceutical_drug\">drugs</a> used to achieve analgesia, relief from <a href=\"https://en.wikipedia.org/wiki/Pain\">pain</a>.</p><p>Analgesic drugs act in various ways on the <a href=\"https://en.wikipedia.org/wiki/Peripheral_nervous_system\">peripheral</a> and <a href=\"https://en.wikipedia.org/wiki/Central_nervous_system\">central</a> nervous systems. They are distinct from <a href=\"https://en.wikipedia.org/wiki/Anesthetic\">anesthetics</a>, which temporarily affect, and in some instances completely eliminate, <a href=\"https://en.wikipedia.org/wiki/Sense\">sensation</a>. Analgesics include <a href=\"https://en.wikipedia.org/wiki/Paracetamol\">paracetamol</a> (known in North America as <a href=\"https://en.wikipedia.org/wiki/Acetaminophen\">acetaminophen</a> or simply APAP), the <a href=\"https://en.wikipedia.org/wiki/Nonsteroidal_anti-inflammatory_drug\">nonsteroidal anti-inflammatory drugs</a> (NSAIDs) such as the <a href=\"https://en.wikipedia.org/wiki/Salicylate\">salicylates</a>, and <a href=\"https://en.wikipedia.org/wiki/Opioid\">opioid</a> drugs such as <a href=\"https://en.wikipedia.org/wiki/Morphine\">morphine</a> and <a href=\"https://en.wikipedia.org/wiki/Oxycodone\">oxycodone</a>.</p></li></ul>'),
-(3, 'Antibiotics', 'Cosmos Kenya Limited', '<p>Antibiotics</p>');
+(1, 'Antipyretics', 'Cosmos Kenya Limited', ''),
+(2, 'Analgesics', 'Dawa Limited Kenya', ''),
+(3, 'Antibiotics', 'Cosmos Kenya Limited', ''),
+(4, 'test', 'Cosmos Pharmaceutical Limited', '<p>test</p>');
 
 -- --------------------------------------------------------
 
@@ -319,19 +404,23 @@ CREATE TABLE `his_prescriptions` (
   `pres_number` varchar(200) DEFAULT NULL,
   `pres_pat_addr` varchar(200) DEFAULT NULL,
   `pres_pat_type` varchar(200) DEFAULT NULL,
-  `pres_date` timestamp(4) NOT NULL DEFAULT current_timestamp(4) ON UPDATE current_timestamp(4),
+  `pres_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `pres_pat_ailment` varchar(200) DEFAULT NULL,
-  `pres_ins` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `pres_ins` longtext DEFAULT NULL,
+  `pres_status` enum('Pending','Done') NOT NULL DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_prescriptions`
 --
 
-INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pres_pat_number`, `pres_number`, `pres_pat_addr`, `pres_pat_type`, `pres_date`, `pres_pat_ailment`, `pres_ins`) VALUES
-(3, 'Mart Developers', '23', '6P8HJ', 'J9DC6', '127001 LocalHost', 'InPatient', '2020-01-11 12:32:39.6963', 'Fever', '<ul><li><a href=\"https://www.medicalnewstoday.com/articles/179211.php\">Non-steroidal anti-inflammatory drugs</a> (NSAIDs) such as <a href=\"https://www.medicalnewstoday.com/articles/161255.php\">aspirin</a> or ibuprofen can help bring a fever down. These are available to purchase over-the-counter or <a target=\"_blank\" href=\"https://amzn.to/2qp3d0b\">online</a>. However, a mild fever may be helping combat the bacterium or virus that is causing the infection. It may not be ideal to bring it down.</li><li>If the fever has been caused by a bacterial infection, the doctor may prescribe an <a href=\"https://www.medicalnewstoday.com/articles/10278.php\">antibiotic</a>.</li><li>If a fever has been caused by a cold, which is caused by a viral infection, NSAIDs may be used to relieve uncomfortable symptoms. Antibiotics have no effect against viruses and will not be prescribed by your doctor for a viral infection.</li></ul>'),
-(4, 'John Doe', '30', 'RAV6C', 'HZQ8J', '12 900 NYE', 'OutPatient', '2020-01-11 13:08:46.7368', 'Malaria', '<ul><li>Combination of atovaquone and proguanil (Malarone)</li><li>Quinine sulfate (Qualaquin) with doxycycline (Vibramycin, Monodox, others)</li><li>Mefloquine.</li><li>Primaquine phosphate.</li></ul>'),
-(5, 'Lorem Ipsum', '10', '7EW0L', 'HQC3D', '12 9001 Machakos', 'OutPatient', '2020-01-13 12:19:30.3702', 'Flu', '<ul><li><a href=\"https://www.google.com/search?client=firefox-b-e&amp;sxsrf=ACYBGNRW3vlJoag6iJInWVOTtTG_HUTedA:1578917913108&amp;q=flu+decongestant&amp;stick=H4sIAAAAAAAAAOMQFeLQz9U3SK5MTlbiBLGMktNzcnYxMRosYhVIyylVSElNzs9LTy0uScwrAQBMMnd5LgAAAA&amp;sa=X&amp;ved=2ahUKEwjRhNzKx4DnAhUcBGMBHYs1A24Q0EAwFnoECAwQHw\">Decongestant</a></li><li>Relieves nasal congestion, swelling and runny nose.</li><li><a href=\"https://www.google.com/search?client=firefox-b-e&amp;sxsrf=ACYBGNRW3vlJoag6iJInWVOTtTG_HUTedA:1578917913108&amp;q=flu+cough+medicine&amp;stick=H4sIAAAAAAAAAOMQFeLQz9U3SK5MTlbiBLEM89IsLHYxMRosYhVKyylVSM4vTc9QyE1NyUzOzEsFAA_gu9IwAAAA&amp;sa=X&amp;ved=2ahUKEwjRhNzKx4DnAhUcBGMBHYs1A24Q0EAwFnoECAwQIA\">Cough medicine</a></li><li>Blocks the cough reflex. Some may thin and loosen mucus, making it easier to clear from the airways.</li><li><a href=\"https://www.google.com/search?client=firefox-b-e&amp;sxsrf=ACYBGNRW3vlJoag6iJInWVOTtTG_HUTedA:1578917913108&amp;q=flu+nonsteroidal+anti-inflammatory+drug&amp;stick=H4sIAAAAAAAAAOMQFeLQz9U3SK5MTlYCs0yzCit3MTEaLGJVT8spVcjLzysuSS3Kz0xJzFFIzCvJ1M3MS8tJzM1NLMkvqlRIKSpNBwByUiYhRAAAAA&amp;sa=X&amp;ved=2ahUKEwjRhNzKx4DnAhUcBGMBHYs1A24Q0EAwFnoECAwQIQ\">Nonsteroidal anti-inflammatory drug</a></li><li>Relieves pain, decreases inflammation and reduces fever.</li><li><a href=\"https://www.google.com/search?client=firefox-b-e&amp;sxsrf=ACYBGNRW3vlJoag6iJInWVOTtTG_HUTedA:1578917913108&amp;q=flu+analgesic&amp;stick=H4sIAAAAAAAAAOMQFeLQz9U3SK5MTlZiB7EqDSx3MTEaLGLlTcspVUjMS8xJTy3OTAYAbecS9ikAAAA&amp;sa=X&amp;ved=2ahUKEwjRhNzKx4DnAhUcBGMBHYs1A24Q0EAwFnoECAwQIg\">Analgesic</a></li><li>Relieves pain.</li><li><a href=\"https://www.google.com/search?client=firefox-b-e&amp;sxsrf=ACYBGNRW3vlJoag6iJInWVOTtTG_HUTedA:1578917913108&amp;q=flu+antiviral+drug&amp;stick=H4sIAAAAAAAAAOMQFeLQz9U3SK5MTlYCs1KMC0x2MTEaLGIVSsspVUjMK8ksyyxKzFFIKSpNBwDBFxlOLwAAAA&amp;sa=X&amp;ved=2ahUKEwjRhNzKx4DnAhUcBGMBHYs1A24Q0EAwFnoECAwQIw\">Antiviral drug</a></li><li>Reduces viruses&#39; ability to replicate.</li></ul>');
+INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pres_pat_number`, `pres_number`, `pres_pat_addr`, `pres_pat_type`, `pres_date`, `pres_pat_ailment`, `pres_ins`, `pres_status`) VALUES
+(4, 'John Doe', '30', 'RAV6C', 'HZQ8J', '12 900 NYE', 'OutPatient', '2024-12-28 11:08:47', 'Malaria', '', 'Pending'),
+(5, 'Lorem Ipsum', '10', '7EW0L', 'HQC3D', '12 9001 Machakos', 'OutPatient', '2024-12-28 11:08:51', 'Flu', '', 'Pending'),
+(6, 'Morsyyyyyyyyyyyyyyy Sayaaaaaaa7', '23', '6VUE2', '0M7SH', 'c', 'InPatient', '2025-01-29 14:50:13', 'idfk', '<p>LMAOOOOO</p>', 'Pending'),
+(7, 'Morsyyyyyyyyyyyyyyy Sayaaaaaaa7', '23', '6VUE2', '53S67', 'c', 'InPatient', '2024-12-25 15:16:34', 'idfk', '<p>dead</p>', 'Done'),
+(8, 'Morsyyyyyyyyyyyyyyy Sayaaaaaaa7', '23', '6VUE2', '6GLNI', 'c', 'InPatient', '2025-01-29 14:50:01', 'fever to death', '<p>kill him</p>', 'Done'),
+(9, 'finale elanif', '21', 'K5E1A', 'PYRN7', 'a', 'InPatient', '2024-12-28 13:02:47', 'fever', '<p>panadol</p>', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -342,7 +431,33 @@ INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pr
 CREATE TABLE `his_pwdresets` (
   `id` int(20) NOT NULL,
   `email` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `his_receptionists`
+--
+
+CREATE TABLE `his_receptionists` (
+  `receptionist_id` int(20) NOT NULL,
+  `receptionist_fname` varchar(200) DEFAULT NULL,
+  `receptionist_lname` varchar(200) DEFAULT NULL,
+  `receptionist_email` varchar(200) DEFAULT NULL,
+  `receptionist_pwd` varchar(200) DEFAULT NULL,
+  `receptionist_phone` varchar(20) DEFAULT NULL,
+  `receptionist_dpic` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `his_receptionists`
+--
+
+INSERT INTO `his_receptionists` (`receptionist_id`, `receptionist_fname`, `receptionist_lname`, `receptionist_email`, `receptionist_pwd`, `receptionist_phone`, `receptionist_dpic`) VALUES
+(1, 'Marwan', 'Sami', 'marwan@gmail.com', 'a69681bcf334ae130217fea4505fd3c994f5683f', '123-456-7890', NULL),
+(2, 'Omar', 'Ashraf', 'omar@gmail.com', 'b29281bcf334ae130217fea4505fd3c994f5683f', '098-765-4321', NULL),
+(4, 'test', 'test', 'test@test.test', '$2y$10$n8Z62dhC5C7.d3bYiN/16e.qxweQe0pIIn8baB/RP3itnI68JPziS', NULL, NULL),
+(5, 'b', 'b', 'b@b.b', '$2y$10$yY5pWa5YBgudHOs/e4JGJ.ef93cO3GfZXoHMqYMmjymykxMam7P4C', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -359,7 +474,7 @@ CREATE TABLE `his_surgery` (
   `s_pat_ailment` varchar(200) DEFAULT NULL,
   `s_pat_date` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
   `s_pat_status` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_surgery`
@@ -383,7 +498,7 @@ CREATE TABLE `his_vendor` (
   `v_email` varchar(200) DEFAULT NULL,
   `v_phone` varchar(200) DEFAULT NULL,
   `v_desc` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_vendor`
@@ -407,15 +522,17 @@ CREATE TABLE `his_vitals` (
   `vit_resprate` varchar(200) DEFAULT NULL,
   `vit_bloodpress` varchar(200) DEFAULT NULL,
   `vit_daterec` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `his_vitals`
 --
 
 INSERT INTO `his_vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytemp`, `vit_heartpulse`, `vit_resprate`, `vit_bloodpress`, `vit_daterec`) VALUES
-(1, '2LBU3', '7EW0L', '37', '87', '20-27', '90', '2020-01-13 12:01:01.725197'),
-(2, 'YANXK', 'N8TI0', '37', '87', '20-27', '120', '2020-01-13 12:08:10.892987');
+(3, 'HJCXL', '6VUE2', '0', '0', '0', '0', '2024-12-24 18:03:41.891100'),
+(4, 'TWVG9', 'WOD9J', '1', '2', '3', '4', '2024-12-26 12:59:46.426217'),
+(5, 'TN4LF', 'UW5DH', '0', '0', '0', '0', '2024-12-28 12:42:52.987808'),
+(6, 'DY2IL', 'K5E1A', '200', '5', '2', '1', '2024-12-28 13:04:04.071208');
 
 --
 -- Indexes for dumped tables
@@ -434,10 +551,29 @@ ALTER TABLE `his_admin`
   ADD PRIMARY KEY (`ad_id`);
 
 --
+-- Indexes for table `his_appointment`
+--
+ALTER TABLE `his_appointment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `his_appointments`
+--
+ALTER TABLE `his_appointments`
+  ADD KEY `pat_id` (`pat_id`),
+  ADD KEY `doc_id` (`doc_id`);
+
+--
 -- Indexes for table `his_assets`
 --
 ALTER TABLE `his_assets`
   ADD PRIMARY KEY (`asst_id`);
+
+--
+-- Indexes for table `his_departments`
+--
+ALTER TABLE `his_departments`
+  ADD PRIMARY KEY (`dept_id`);
 
 --
 -- Indexes for table `his_docs`
@@ -455,7 +591,8 @@ ALTER TABLE `his_equipments`
 -- Indexes for table `his_laboratory`
 --
 ALTER TABLE `his_laboratory`
-  ADD PRIMARY KEY (`lab_id`);
+  ADD PRIMARY KEY (`lab_id`),
+  ADD UNIQUE KEY `lab_number` (`lab_number`);
 
 --
 -- Indexes for table `his_medical_records`
@@ -467,7 +604,9 @@ ALTER TABLE `his_medical_records`
 -- Indexes for table `his_patients`
 --
 ALTER TABLE `his_patients`
-  ADD PRIMARY KEY (`pat_id`);
+  ADD PRIMARY KEY (`pat_id`),
+  ADD UNIQUE KEY `idx_pat_number` (`pat_number`),
+  ADD UNIQUE KEY `pat_phone` (`pat_phone`);
 
 --
 -- Indexes for table `his_patient_transfers`
@@ -506,6 +645,12 @@ ALTER TABLE `his_pwdresets`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `his_receptionists`
+--
+ALTER TABLE `his_receptionists`
+  ADD PRIMARY KEY (`receptionist_id`);
+
+--
 -- Indexes for table `his_surgery`
 --
 ALTER TABLE `his_surgery`
@@ -521,7 +666,8 @@ ALTER TABLE `his_vendor`
 -- Indexes for table `his_vitals`
 --
 ALTER TABLE `his_vitals`
-  ADD PRIMARY KEY (`vit_id`);
+  ADD PRIMARY KEY (`vit_id`),
+  ADD KEY `fk_vit_pat_number` (`vit_pat_number`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -540,16 +686,28 @@ ALTER TABLE `his_admin`
   MODIFY `ad_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `his_appointment`
+--
+ALTER TABLE `his_appointment`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `his_assets`
 --
 ALTER TABLE `his_assets`
   MODIFY `asst_id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `his_departments`
+--
+ALTER TABLE `his_departments`
+  MODIFY `dept_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `his_docs`
 --
 ALTER TABLE `his_docs`
-  MODIFY `doc_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `doc_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `his_equipments`
@@ -561,7 +719,7 @@ ALTER TABLE `his_equipments`
 -- AUTO_INCREMENT for table `his_laboratory`
 --
 ALTER TABLE `his_laboratory`
-  MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `his_medical_records`
@@ -573,7 +731,7 @@ ALTER TABLE `his_medical_records`
 -- AUTO_INCREMENT for table `his_patients`
 --
 ALTER TABLE `his_patients`
-  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `his_patient_transfers`
@@ -585,7 +743,7 @@ ALTER TABLE `his_patient_transfers`
 -- AUTO_INCREMENT for table `his_payrolls`
 --
 ALTER TABLE `his_payrolls`
-  MODIFY `pay_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pay_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `his_pharmaceuticals`
@@ -597,19 +755,25 @@ ALTER TABLE `his_pharmaceuticals`
 -- AUTO_INCREMENT for table `his_pharmaceuticals_categories`
 --
 ALTER TABLE `his_pharmaceuticals_categories`
-  MODIFY `pharm_cat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pharm_cat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `his_prescriptions`
 --
 ALTER TABLE `his_prescriptions`
-  MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `his_pwdresets`
 --
 ALTER TABLE `his_pwdresets`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `his_receptionists`
+--
+ALTER TABLE `his_receptionists`
+  MODIFY `receptionist_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `his_surgery`
@@ -627,7 +791,24 @@ ALTER TABLE `his_vendor`
 -- AUTO_INCREMENT for table `his_vitals`
 --
 ALTER TABLE `his_vitals`
-  MODIFY `vit_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `vit_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `his_appointments`
+--
+ALTER TABLE `his_appointments`
+  ADD CONSTRAINT `his_appointments_ibfk_1` FOREIGN KEY (`pat_id`) REFERENCES `his_patients` (`pat_id`),
+  ADD CONSTRAINT `his_appointments_ibfk_2` FOREIGN KEY (`doc_id`) REFERENCES `his_docs` (`doc_id`);
+
+--
+-- Constraints for table `his_vitals`
+--
+ALTER TABLE `his_vitals`
+  ADD CONSTRAINT `fk_vit_pat_number` FOREIGN KEY (`vit_pat_number`) REFERENCES `his_patients` (`pat_number`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -129,8 +129,7 @@
                                                         'NULL' AS number,
                                                         'Reception' AS dept,
                                                         receptionist_email AS email 
-                                                    FROM his_receptionists)
-                                                    ORDER BY RAND()";
+                                                    FROM his_receptionists)";
 
                                                 $stmt = $mysqli->prepare($ret);
                                                 if (!$stmt) {

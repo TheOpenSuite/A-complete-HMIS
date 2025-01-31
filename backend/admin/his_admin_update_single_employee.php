@@ -25,6 +25,15 @@ if(isset($_POST['update_doc'])) {
         $types .= 's';
     }
 
+    // Add to $setParts and $params
+    $setParts[] = "doc_start_time=?";
+    $params[] = $_POST['doc_start_time'];
+    $types .= 's';
+
+    $setParts[] = "doc_end_time=?";
+    $params[] = $_POST['doc_end_time'];
+    $types .= 's';
+
     // Add WHERE clause parameter
     $params[] = $doc_number;
     $types .= 's';
@@ -134,9 +143,23 @@ if(isset($_POST['update_doc'])) {
                                                     <input type="password" name="doc_pwd" class="form-control" id="inputCity">
                                                 </div> 
                                                 
-                                            </div>                                            
+                                            </div>
+                                            
+                                            <!-- Add after password field -->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Start Time</label>
+                                                    <input type="time" required name="doc_start_time" class="form-control" 
+                                                        value="<?php echo $row->doc_start_time; ?>">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>End Time</label>
+                                                    <input type="time" required name="doc_end_time" class="form-control"
+                                                        value="<?php echo $row->doc_end_time; ?>">
+                                                </div>
+                                            </div>
 
-                                            <button type="submit" name="update_doc" class="ladda-button btn btn-success" data-style="expand-right">Add Employee</button>
+                                            <button type="submit" name="update_doc" class="ladda-button btn btn-success" data-style="expand-right">Update Employee</button>
 
                                         </form>
                                         <!--End Patient Form-->

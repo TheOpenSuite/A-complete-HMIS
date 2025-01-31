@@ -4,17 +4,19 @@
     if(isset($_POST['admin_login']))
     {
         $ad_email=$_POST['ad_email'];
-        $ad_pwd=sha1(md5($_POST['ad_pwd']));//double encrypt to increase security
-        $stmt=$mysqli->prepare("SELECT ad_email ,ad_pwd , ad_id FROM his_admin WHERE ad_email=? AND ad_pwd=? ");//sql to log in user
-        $stmt->bind_param('ss',$ad_email,$ad_pwd);//bind fetched parameters
+        $ad_pwd = $_POST['ad_pwd'];
+        $stmt=$mysqli->prepare("SELECT ad_email ,ad_pwd , ad_id FROM his_admin WHERE ad_email=?");//sql to log in user
+        $stmt->bind_param('s',$ad_email);//bind fetched parameters
         $stmt->execute();//execute bind
-        $stmt -> bind_result($ad_email,$ad_pwd,$ad_id);//bind result
+        $stmt -> bind_result($ad_email,$hashed_password,$ad_id);//bind result
         $rs=$stmt->fetch();
         $_SESSION['ad_id']=$ad_id;//assaign session to admin id
         //$uip=$_SERVER['REMOTE_ADDR'];
         //$ldate=date('d/m/Y h:i:s', time());
-        if($rs)
+        if(password_verify($ad_pwd, $hashed_password))
             {//if its sucessfull
+                $_SESSION['doc_id'] = $ad_id;
+                $_SESSION['doc_number'] = $ad_email;//assaign session to doc_number id
                 header("location:his_admin_dashboard.php");
             }
 

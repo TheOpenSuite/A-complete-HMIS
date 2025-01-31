@@ -34,10 +34,10 @@ if (isset($_POST['add_employee'])) {
         }
     } else {
         // If not a Reception, insert into the `his_docs` table
-        $query = "INSERT INTO his_docs (doc_fname, doc_lname, doc_number, doc_email, doc_pwd, doc_dept) 
-                  VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO his_docs (doc_fname, doc_lname, doc_number, doc_email, doc_pwd, doc_dept, doc_start_time, doc_end_time) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('ssssss', $doc_fname, $doc_lname, $doc_number, $doc_email, $hashed_password, $doc_dept);
+        $stmt->bind_param('ssssssss', $doc_fname, $doc_lname, $doc_number, $doc_email, $hashed_password, $doc_dept, $_POST['doc_start_time'], $_POST['doc_end_time']);
         $stmt->execute();
 
         if ($stmt) {
@@ -148,6 +148,17 @@ if (isset($_POST['add_dept'])) {
                                                 }
                                                 ?>
                                             </select>
+                                        </div>
+                                        <!-- Add after department selection -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Start Time</label>
+                                                <input type="time" required name="doc_start_time" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>End Time</label>
+                                                <input type="time" required name="doc_end_time" class="form-control">
+                                            </div>
                                         </div>
 
                                         <button type="submit" name="add_employee" class="ladda-button btn btn-success" data-style="expand-right">Add Employee</button>

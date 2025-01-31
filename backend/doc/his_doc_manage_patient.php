@@ -91,7 +91,7 @@
                                         /*
                                             * Get details of all patients assigned to this doctor
                                             */
-                                            $ret = "SELECT * FROM his_patients WHERE pat_doc_id = ? ORDER BY RAND()"; 
+                                            $ret = "SELECT * FROM his_patients WHERE pat_doc_id = ? ORDER BY pat_date_joined DESC"; 
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->bind_param('i', $doc_id);  // Bind the doctor ID to the query
                                             $stmt->execute();

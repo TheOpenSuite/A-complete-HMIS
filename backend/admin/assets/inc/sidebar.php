@@ -31,12 +31,6 @@
                                         <a href="his_admin_manage_patient.php">Manage Patients</a>
                                     </li>
                                     <hr>
-                                    <li>
-                                        <a href="his_admin_discharge_patient.php">Discharge Patients</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_patient_transfer.php">Patient Transfers</a>
-                                    </li>
                                 </ul>
                             </li>
 
