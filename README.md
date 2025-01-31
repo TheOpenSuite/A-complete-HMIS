@@ -72,11 +72,11 @@ This HMIS aims at having each department as a role, to better handle a real worl
    git clone [repository-url] -->
 
 ##
-Login Credentials are:
+Login Credentials for admin are:
 
-Admin Module Email:
+Admin Module Email: admin@admin.com
 
-Admin Module Password: 
+Admin Module Password: admin
 
 ##
 **Credits**: The core framework and initial UI was design by [MartMbithi](https://github.com/MartMbithi).
