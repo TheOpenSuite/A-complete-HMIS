@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'docker-hmis'}
     stages {
         stage('Hello') {
             steps {
