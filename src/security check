@@ -1,0 +1,18 @@
+$query = "SELECT doc_dept FROM his_docs WHERE doc_id = ?";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param('i', $doc_id);
+$stmt->execute();
+$stmt->bind_result($doc_dept);
+$stmt->fetch();
+$stmt->close();
+
+// Check if the department is "pharmacy"
+if ($doc_dept == 'Pharmacy') {
+    // Redirect to the login page
+    header("Location: index.php");
+    exit();
+}
+
+this to be added in every doctor file and changed in pharmacy to check if doc 
+
+A similar thing should be added to the admin as well

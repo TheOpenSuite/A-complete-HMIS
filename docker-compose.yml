@@ -1,0 +1,44 @@
+services:
+  # PHP/Apache Service
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www/html # Live code sync (optional)
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  # MySQL Service
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
