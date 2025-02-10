@@ -88,7 +88,7 @@
                                                 *get details of allpatients
                                                 *
                                             */
-                                                $ret="SELECT * FROM  his_pharmaceuticals_categories ORDER BY RAND() "; 
+                                                $ret="SELECT * FROM  pharmaceuticals_categories ORDER BY RAND() "; 
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 $stmt->execute() ;//ok
                                                 $res=$stmt->get_result();
@@ -105,7 +105,7 @@
                                                     <td>
                                                         <a href="pharma_view_single_pharm_category.php?pharm_cat_id=<?php echo $row->pharm_cat_id;?>" class="badge badge-success"><i class="far fa-eye "></i> View</a>
                                                         <a href="pharma_update_single_pharm_category.php?pharm_cat_name=<?php echo $row->pharm_cat_name;?>" class="badge badge-warning"><i class="fas fa-clipboard-check "></i> Update</a>
-                                                       <!-- <a href="his_admin_manage_pharm_cat.php?delete_pharm_cat=<?php echo $row->pharm_cat_id;?>" class="badge badge-danger"><i class="fas fa-trash-alt "></i> Delete</a>-->
+                                                       <!-- <a href="admin_manage_pharm_cat.php?delete_pharm_cat=<?php echo $row->pharm_cat_id;?>" class="badge badge-danger"><i class="fas fa-trash-alt "></i> Delete</a>-->
 
 
                                                     </td>

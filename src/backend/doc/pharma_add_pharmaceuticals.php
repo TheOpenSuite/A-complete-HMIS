@@ -11,7 +11,7 @@
             $phar_vendor = $_POST['phar_vendor'];
                 
             //sql to insert captured values
-			$query="INSERT INTO his_pharmaceuticals (phar_name, phar_bcode, phar_desc, phar_qty, phar_cat, phar_vendor) VALUES (?,?,?,?,?,?)";
+			$query="INSERT INTO pharmaceuticals (phar_name, phar_bcode, phar_desc, phar_qty, phar_cat, phar_vendor) VALUES (?,?,?,?,?,?)";
 			$stmt = $mysqli->prepare($query);
 			$rc=$stmt->bind_param('ssssss', $phar_name, $phar_bcode, $phar_desc, $phar_qty, $phar_cat, $phar_vendor);
 			$stmt->execute();
@@ -67,7 +67,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="his_doc_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="doc_dashboard.php">Dashboard</a></li>
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Pharmaceuticals</a></li>
                                             <li class="breadcrumb-item active">Add Pharmaceutical</li>
                                         </ol>
@@ -102,7 +102,7 @@
                                                     <!--Fetch All Pharmaceutical Categories-->
                                                     <?php
                                                    
-                                                        $ret="SELECT * FROM  his_pharmaceuticals_categories ORDER BY RAND() "; 
+                                                        $ret="SELECT * FROM  pharmaceuticals_categories ORDER BY RAND() "; 
                                                         $stmt= $mysqli->prepare($ret) ;
                                                         $stmt->execute() ;//ok
                                                         $res=$stmt->get_result();
@@ -119,7 +119,7 @@
                                                     <select id="inputState" required="required" name="phar_vendor" class="form-control">
                                                     <?php
                                                     
-                                                        $ret="SELECT * FROM  his_vendor ORDER BY RAND() "; 
+                                                        $ret="SELECT * FROM  vendor ORDER BY RAND() "; 
                                                         //sql code to get to ten docs  randomly
                                                         $stmt= $mysqli->prepare($ret) ;
                                                         $stmt->execute() ;//ok

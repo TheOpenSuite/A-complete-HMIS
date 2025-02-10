@@ -88,7 +88,7 @@
                                             </thead>
                                             <?php
                                                 $pay_doc_number = $_SESSION['doc_number'];
-                                                $ret="SELECT  * FROM his_payrolls WHERE pay_doc_number = ?";
+                                                $ret="SELECT  * FROM payrolls WHERE pay_doc_number = ?";
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 $stmt->bind_param('s',$pay_doc_number);
                                                 $stmt->execute() ;//ok
@@ -104,10 +104,10 @@
                                                     <td><?php echo $row->pay_doc_name;?></td>
                                                     <td><?php echo $row->pay_doc_number;?></td>
                                                     <td><?php echo $row->pay_number;?></td>   
-                                                    <td>Ksh <?php echo $row->pay_emp_salary;?></td>
+                                                    <td>USD <?php echo $row->pay_emp_salary;?></td>
                                                  
                                                     <td>
-                                                        <!--<a href="his_admin_manage_payrolls.php?delete_pay_number=<?php echo $row->pay_number;?>" class="badge badge-danger"><i class="fas fa-trash"></i> Delete</a>-->
+                                                        <!--<a href="admin_manage_payrolls.php?delete_pay_number=<?php echo $row->pay_number;?>" class="badge badge-danger"><i class="fas fa-trash"></i> Delete</a>-->
                                                         <a href="pharma_view_single_payroll.php?pay_number=<?php echo $row->pay_number;?>" class="badge badge-success"><i class="fas fa-eye"></i> View | Print Payroll</a>
 
                                                     </td>

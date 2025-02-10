@@ -11,7 +11,7 @@
             $phar_vendor = $_POST['phar_vendor'];
                 
             //sql to insert captured values
-			$query="UPDATE  his_pharmaceuticals SET phar_name = ?, phar_desc = ?, phar_qty = ?, phar_cat = ?, phar_vendor = ? WHERE phar_bcode = ?";
+			$query="UPDATE  pharmaceuticals SET phar_name = ?, phar_desc = ?, phar_qty = ?, phar_cat = ?, phar_vendor = ? WHERE phar_bcode = ?";
 			$stmt = $mysqli->prepare($query);
 			$rc=$stmt->bind_param('ssssss', $phar_name, $phar_desc, $phar_qty, $phar_cat, $phar_vendor, $phar_bcode);
 			$stmt->execute();
@@ -56,7 +56,7 @@
             <!-- ============================================================== -->
             <?php
                 $phar_bcode = $_GET['phar_bcode'];
-                $ret="SELECT  * FROM his_pharmaceuticals WHERE phar_bcode=?";
+                $ret="SELECT  * FROM pharmaceuticals WHERE phar_bcode=?";
                 $stmt= $mysqli->prepare($ret) ;
                 $stmt->bind_param('s',$phar_bcode);
                 $stmt->execute() ;//ok
@@ -77,7 +77,7 @@
                                     <div class="page-title-box">
                                         <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item"><a href="his_doc_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="doc_dashboard.php">Dashboard</a></li>
                                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Pharmaceuticals</a></li>
                                                 <li class="breadcrumb-item active">Manage Pharmaceutical</li>
                                             </ol>
@@ -122,7 +122,7 @@
                                                         <!--Fetch All Pharmaceutical Categories-->
                                                         <?php
                                                     
-                                                            $ret="SELECT * FROM  his_pharmaceuticals_categories ORDER BY RAND() "; 
+                                                            $ret="SELECT * FROM  pharmaceuticals_categories ORDER BY RAND() "; 
                                                             $stmt= $mysqli->prepare($ret) ;
                                                             $stmt->execute() ;//ok
                                                             $res=$stmt->get_result();

@@ -9,7 +9,7 @@ if(isset($_GET['dept'])) {
     $dept = $_GET['dept'];
 
     // Query to fetch doctors from the selected department
-    $query = "SELECT doc_id, doc_fname, doc_lname FROM his_docs WHERE doc_dept = ?";
+    $query = "SELECT doc_id, doc_fname, doc_lname FROM docs WHERE doc_dept = ?";
     $stmt = $mysqli->prepare($query);
 
     // Ensure the query executes safely with the correct parameter

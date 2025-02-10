@@ -8,7 +8,7 @@ if(isset($_GET['pres_id']) && isset($_GET['status'])) {
     $pres_id = $_GET['pres_id'];
     $status = $_GET['status'];
     
-    $query = "UPDATE his_prescriptions SET pres_status = ? WHERE pres_id = ?";
+    $query = "UPDATE prescriptions SET pres_status = ? WHERE pres_id = ?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('si', $status, $pres_id);
     

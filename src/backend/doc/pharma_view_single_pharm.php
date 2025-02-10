@@ -29,7 +29,7 @@
             <!-- ============================================================== -->
             <?php
                 $phar_bcode=$_GET['phar_bcode'];
-                $ret="SELECT  * FROM his_pharmaceuticals WHERE phar_bcode = ?";
+                $ret="SELECT  * FROM pharmaceuticals WHERE phar_bcode = ?";
                 $stmt= $mysqli->prepare($ret) ;
                 $stmt->bind_param('i',$phar_bcode);
                 $stmt->execute() ;//ok
@@ -51,7 +51,7 @@
                                     <div class="page-title-box">
                                         <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item"><a href="his_doc_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="doc_dashboard.php">Dashboard</a></li>
                                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Pharmaceuticals</a></li>
                                                 <li class="breadcrumb-item active">View Pharmaceuticals</li>
                                             </ol>

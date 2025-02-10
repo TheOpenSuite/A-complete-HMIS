@@ -10,7 +10,7 @@
                             <li class="menu-title">Navigation</li>
 
                             <li>
-                                <a href="his_doc_dashboard.php">
+                                <a href="doc_dashboard.php">
                                     <i class="fe-airplay"></i>
                                     <span> Dashboard </span>
                                 </a>
@@ -25,18 +25,18 @@
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li>
-                                        <a href="his_doc_manage_patient.php">Manage Patients</a>
+                                        <a href="doc_manage_patient.php">Manage Patients</a>
                                     </li>
                                     <hr>
                                     <li>
-                                        <a href="his_doc_discharge_patient.php">Discharge Patients</a>
+                                        <a href="doc_discharge_patient.php">Discharge Patients</a>
                                     </li>
                                     <li>
-                                        <a href="his_doc_patient_transfer.php">Patient Transfers</a>
+                                        <a href="doc_patient_transfer.php">Patient Transfers</a>
                                     </li>
                                     <hr>
                                     <li>
-                                        <a href="his_doc_add_presc.php">Add Prescriptions</a>
+                                        <a href="doc_add_presc.php">Add Prescriptions</a>
                                     </li>
                                 </ul>
                             </li>
@@ -50,11 +50,11 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                    
                                     <li>
-                                        <a href="his_doc_pharm_inventory.php">Pharmaceuticals</a>
+                                        <a href="doc_pharm_inventory.php">Pharmaceuticals</a>
                                     </li>
 
                                     <li>
-                                        <a href="his_doc_equipments_inventory.php">Assets</a>
+                                        <a href="doc_equipments_inventory.php">Assets</a>
                                     </li>
                                     
                                 </ul>
@@ -68,20 +68,40 @@
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li>
-                                        <a href="his_doc_patient_lab_test.php">Patient Lab Tests</a>
+                                        <a href="doc_patient_lab_test.php">Patient Lab Tests</a>
                                     </li>
                                     <li>
-                                        <a href="his_doc_patient_lab_result.php">Patient Lab Results</a>
+                                        <a href="doc_patient_lab_result.php">Patient Lab Results</a>
                                     </li>
                                     <li>
-                                        <a href="his_doc_patient_lab_vitals.php">Patient Vitals</a>
+                                        <a href="doc_patient_lab_vitals.php">Patient Vitals</a>
                                     </li>
                                     
                                     <li>
-                                        <a href="his_doc_lab_report.php">Lab Reports</a>
+                                        <a href="doc_lab_report.php">Lab Reports</a>
                                     </li>
                                     <hr>
                                     
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);">
+                                    <i class="mdi mdi-scissors-cutting "></i>
+                                    <span> Surgical </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li>
+                                        <a href="doc_add_theatre_patient.php">Add Patient</a>
+                                    </li>
+                                    <li>
+                                        <a href="doc_manage_theatre_patient.php">Manage Patients</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="doc_surgery_records.php">Surgery Records</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -94,7 +114,7 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                     
                                     <li>
-                                        <a href="his_doc_view_payrolls.php">My Payrolls</a>
+                                        <a href="doc_view_payrolls.php">My Payrolls</a>
                                     </li>
                                 </ul>
                             </li>

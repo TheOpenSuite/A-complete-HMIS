@@ -10,7 +10,7 @@
   if(isset($_GET['delete_pharm_name']))
   {
         $id=intval($_GET['delete_pharm_name']);
-        $adn="delete from his_pharmaceuticals where phar_id=?";
+        $adn="delete from pharmaceuticals where phar_id=?";
         $stmt= $mysqli->prepare($adn);
         $stmt->bind_param('i',$id);
         $stmt->execute();
@@ -113,7 +113,7 @@
                                                 *get details of allpatients
                                                 *
                                             */
-                                                $ret="SELECT * FROM  his_pharmaceuticals ORDER BY RAND() "; 
+                                                $ret="SELECT * FROM  pharmaceuticals ORDER BY RAND() "; 
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 $stmt->execute() ;//ok
                                                 $res=$stmt->get_result();
@@ -133,7 +133,7 @@
                                                     <td>
                                                         <a href="pharma_view_single_pharm.php?phar_bcode=<?php echo $row->phar_bcode;?>" class="badge badge-success"><i class="far fa-eye "></i> View</a>
                                                         <a href="pharma_update_single_pharm.php?phar_bcode=<?php echo $row->phar_bcode;?>" class="badge badge-warning"><i class="fas fa-clipboard-check "></i> Update</a>
-                                                        <!--<a href="his_admin_manage_pharmaceuticals.php?delete_pharm_name=<?php echo $row->phar_id;?>" class="badge badge-danger"><i class="fas fa-trash-alt"></i> Delete</a>-->
+                                                        <!--<a href="admin_manage_pharmaceuticals.php?delete_pharm_name=<?php echo $row->phar_id;?>" class="badge badge-danger"><i class="fas fa-trash-alt"></i> Delete</a>-->
 
                                                     </td>
                                                 </tr>

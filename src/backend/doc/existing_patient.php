@@ -7,7 +7,7 @@ $patient = null;
 if (isset($_POST['search_patient'])) {
     // Search patient by phone number
     $pat_phone = $_POST['pat_phone_search'];
-    $query = "SELECT * FROM his_patients WHERE pat_phone = ?";
+    $query = "SELECT * FROM patients WHERE pat_phone = ?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $pat_phone);
     $stmt->execute();
@@ -70,7 +70,7 @@ if (isset($_POST['update_patient'])) {
 
     // If there are fields to update
     if (!empty($fieldsToUpdate)) {
-        $query = "UPDATE his_patients SET " . implode(', ', $fieldsToUpdate) . " WHERE pat_id = ?";
+        $query = "UPDATE patients SET " . implode(', ', $fieldsToUpdate) . " WHERE pat_id = ?";
         $stmt = $mysqli->prepare($query);
         $values[] = $pat_id; // Add the patient ID for the WHERE clause
         $types = str_repeat('s', count($values) - 1) . 'i'; // Define types for bind_param
@@ -208,8 +208,8 @@ if (isset($_POST['update_patient'])) {
                                             <select id="inputDepartment" name="pat_dept" class="form-control" required="required">
                                                 <option value="">Select Department</option>
                                                 <?php
-                                                    // Fetch departments dynamically from the his_departments table
-                                                    $deptQuery = "SELECT dept_name FROM his_departments";
+                                                    // Fetch departments dynamically from the departments table
+                                                    $deptQuery = "SELECT dept_name FROM departments";
                                                     $deptResult = $mysqli->query($deptQuery);
                                                     while($row = $deptResult->fetch_assoc()) {
                                                         echo "<option value='" . $row['dept_name'] . "'>" . $row['dept_name'] . "</option>";

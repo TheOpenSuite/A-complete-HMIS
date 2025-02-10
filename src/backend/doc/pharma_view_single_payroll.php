@@ -28,7 +28,7 @@
             <!-- ============================================================== -->
             <?php
                 $pay_number = $_GET['pay_number'];
-                $ret="SELECT  * FROM his_payrolls WHERE pay_number = ?";
+                $ret="SELECT  * FROM payrolls WHERE pay_number = ?";
                 $stmt= $mysqli->prepare($ret) ;
                 $stmt->bind_param('s',$pay_number);
                 $stmt->execute() ;//ok
@@ -119,7 +119,7 @@
                                                             <td>
                                                                 <?php
                                                                     $doc_number = $_SESSION['doc_number'];
-                                                                    $ret="SELECT  * FROM his_docs WHERE doc_number = ?";
+                                                                    $ret="SELECT  * FROM docs WHERE doc_number = ?";
                                                                     $stmt= $mysqli->prepare($ret) ;
                                                                     $stmt->bind_param('s',$doc_number);
                                                                     $stmt->execute() ;//ok
@@ -133,7 +133,7 @@
                                                                 </td>
                                                                 <?php
                                                                     $pay_number = $_GET['pay_number'];
-                                                                    $ret="SELECT  * FROM his_payrolls WHERE pay_number = ?";
+                                                                    $ret="SELECT  * FROM payrolls WHERE pay_number = ?";
                                                                     $stmt= $mysqli->prepare($ret) ;
                                                                     $stmt->bind_param('s',$pay_number);
                                                                     $stmt->execute() ;//ok
@@ -151,10 +151,10 @@
                                                                         //get total salary after tax reduction
                                                                         $total_salary = $salary - $taxable_salary;
                                                                 ?>
-                                                            <td>Ksh <?php echo $row->pay_emp_salary;?></td>
+                                                            <td>USD <?php echo $row->pay_emp_salary;?></td>
                                                             <td>16%</td>
                                                             
-                                                            <td class="text-right">Ksh <?php echo $taxable_salary;?></td>
+                                                            <td class="text-right">USD <?php echo $taxable_salary;?></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -175,9 +175,9 @@
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
                                                 <div class="float-right">
-                                                    <p><b>Sub-total:</b> <span class="float-right">Ksh <?php echo $row->pay_emp_salary;?></span></p>
+                                                    <p><b>Sub-total:</b> <span class="float-right">USD <?php echo $row->pay_emp_salary;?></span></p>
                                                     <p><b>PAYE Tax (16%) :</b> <span class="float-right"> &nbsp;&nbsp;&nbsp; <?php echo $taxable_salary;?> </span></p>
-                                                    <h3>Ksh <?php echo $total_salary;?></h3>
+                                                    <h3>USD <?php echo $total_salary;?></h3>
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div> <!-- end col -->

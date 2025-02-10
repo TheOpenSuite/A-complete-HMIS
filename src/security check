@@ -1,4 +1,4 @@
-$query = "SELECT doc_dept FROM his_docs WHERE doc_id = ?";
+$query = "SELECT doc_dept FROM docs WHERE doc_id = ?";
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param('i', $doc_id);
 $stmt->execute();

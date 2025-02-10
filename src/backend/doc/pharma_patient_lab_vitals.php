@@ -92,7 +92,7 @@
                                                 *get details of allpatients
                                                 *
                                             */
-                                                $ret="SELECT * FROM  his_patients ORDER BY RAND() "; 
+                                                $ret="SELECT * FROM  patients ORDER BY RAND() "; 
                                                 //sql code to get to ten docs  randomly
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 $stmt->execute() ;//ok
@@ -112,7 +112,7 @@
                                                     <td><?php echo $row->pat_age;?> Years</td>
                                                     <td><?php echo $row->pat_type;?></td>
                                                     
-                                                    <td><a href="his_doc_add_single_patient_vitals.php?pat_number=<?php echo $row->pat_number;?>" class="badge badge-success"><i class="mdi mdi-beaker "></i> Capture Vitals</a></td>
+                                                    <td><a href="doc_add_single_patient_vitals.php?pat_number=<?php echo $row->pat_number;?>" class="badge badge-success"><i class="mdi mdi-beaker "></i> Capture Vitals</a></td>
                                                 </tr>
                                                 </tbody>
                                             <?php  $cnt = $cnt +1 ; }?>

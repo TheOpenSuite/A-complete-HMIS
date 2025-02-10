@@ -29,7 +29,7 @@
             <?php
                 $pres_number=$_GET['pres_number'];
                 $pres_id = $_GET['pres_id'];
-                $ret="SELECT  * FROM his_prescriptions WHERE pres_number = ? AND pres_id = ?";
+                $ret="SELECT  * FROM prescriptions WHERE pres_number = ? AND pres_id = ?";
                 $stmt= $mysqli->prepare($ret) ;
                 $stmt->bind_param('ii',$pres_number,$pres_id);
                 //$stmt->bind_param('i',$pres_id);
@@ -52,7 +52,7 @@
                                     <div class="page-title-box">
                                         <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item"><a href="his_doc_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="doc_dashboard.php">Dashboard</a></li>
                                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Pharmaceuticals</a></li>
                                                 <li class="breadcrumb-item active">View Prescriptions</li>
                                             </ol>

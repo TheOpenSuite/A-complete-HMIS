@@ -20,8 +20,8 @@ if(isset($_POST['add_patient'])) {
     if ($pat_doc_id === 'random') {
         $stmt = $mysqli->prepare("
             SELECT d.doc_id, COUNT(p.pat_id) AS patient_count 
-            FROM his_docs d 
-            LEFT JOIN his_patients p ON d.doc_id = p.pat_doc_id 
+            FROM docs d 
+            LEFT JOIN patients p ON d.doc_id = p.pat_doc_id 
             WHERE d.doc_dept = ? 
             AND CURTIME() BETWEEN d.doc_start_time AND d.doc_end_time
             GROUP BY d.doc_id 
@@ -36,7 +36,7 @@ if(isset($_POST['add_patient'])) {
             // Check the next available time
             $nextAvailableStmt = $mysqli->prepare("
                 SELECT MIN(doc_start_time) AS next_start
-                FROM his_docs 
+                FROM docs 
                 WHERE doc_dept = ? AND doc_start_time > CURTIME()
             ");
             $nextAvailableStmt->bind_param('s', $pat_dept);
@@ -50,7 +50,7 @@ if(isset($_POST['add_patient'])) {
             } else {
                 $earliestStmt = $mysqli->prepare("
                     SELECT MIN(doc_start_time) AS earliest_start
-                    FROM his_docs 
+                    FROM docs 
                     WHERE doc_dept = ?
                 ");
                 $earliestStmt->bind_param('s', $pat_dept);
@@ -71,7 +71,7 @@ if(isset($_POST['add_patient'])) {
     if ($pat_doc_id !== 'random') {
         $stmt = $mysqli->prepare("
             SELECT doc_start_time, doc_end_time 
-            FROM his_docs 
+            FROM docs 
             WHERE doc_id = ?
         ");
         $stmt->bind_param('i', $pat_doc_id);
@@ -93,7 +93,7 @@ if(isset($_POST['add_patient'])) {
     
 
     // Insert patient into database
-    $query = "INSERT INTO his_patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr, pat_dept, pat_doc_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO patients (pat_fname, pat_ailment, pat_lname, pat_age, pat_dob, pat_number, pat_phone, pat_type, pat_addr, pat_dept, pat_doc_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
     $rc = $stmt->bind_param('ssssssssssi', $pat_fname, $pat_ailment, $pat_lname, $pat_age, $pat_dob, $pat_number, $pat_phone, $pat_type, $pat_addr, $pat_dept, $pat_doc_id);
     $stmt->execute();
@@ -224,8 +224,8 @@ if(isset($_POST['add_patient'])) {
                                             <select id="inputDepartment" name="pat_dept" class="form-control" required="required">
                                                 <option value="">Select Department</option>
                                                 <?php
-                                                    // Fetch departments dynamically from the his_departments table
-                                                    $deptQuery = "SELECT dept_name FROM his_departments WHERE dept_name != 'Reception' AND dept_name != 'Pharmacy'";
+                                                    // Fetch departments dynamically from the departments table
+                                                    $deptQuery = "SELECT dept_name FROM departments WHERE dept_name != 'Reception' AND dept_name != 'Pharmacy'";
                                                     $deptResult = $mysqli->query($deptQuery);
                                                     while($row = $deptResult->fetch_assoc()) {
                                                         echo "<option value='" . $row['dept_name'] . "'>" . $row['dept_name'] . "</option>";

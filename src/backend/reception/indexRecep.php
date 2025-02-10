@@ -7,8 +7,8 @@ if (isset($_POST['doc_login'])) {
     $reception_email = $_POST['doc_number']; // Assuming doc_number is the email field for receptionists
     $reception_pwd = $_POST['doc_pwd']; // Password entered by user
 
-    // Query the his_receptionists table to check if the user exists
-    $stmt = $mysqli->prepare("SELECT receptionist_email, receptionist_pwd, receptionist_id FROM his_receptionists WHERE receptionist_email = ?");
+    // Query the receptionists table to check if the user exists
+    $stmt = $mysqli->prepare("SELECT receptionist_email, receptionist_pwd, receptionist_id FROM receptionists WHERE receptionist_email = ?");
     $stmt->bind_param('s', $reception_email); // Bind email parameter
     $stmt->execute();
     $stmt->bind_result($stored_email, $stored_pwd, $receptionist_id);
@@ -77,7 +77,7 @@ if (isset($_POST['doc_login'])) {
 
                         <div class="text-center w-75 m-auto">
                             <a href="index.php">
-                                <span><img src="../doc/assets/images/logo-dark.png" alt="" height="22"></span>
+                                <span><img src="../doc/assets/images/logo-dark.png" alt="" height="75"></span>
                             </a>
                             <p class="text-muted mb-4 mt-3">Enter your email address and password to access Reception panel.</p>
                         </div>
@@ -104,12 +104,6 @@ if (isset($_POST['doc_login'])) {
                     </div> <!-- end card-body -->
                 </div>
                 <!-- end card -->
-
-                <div class="row mt-3">
-                    <div class="col-12 text-center">
-                        <p><a href="his_doc_reset_pwd.php" class="text-white-50 ml-1">Forgot your password?</a></p>
-                    </div> <!-- end col -->
-                </div>
                 <!-- end row -->
 
             </div> <!-- end col -->

@@ -28,7 +28,7 @@
             <!-- ============================================================== -->
             <?php
                 $lab_number=$_GET['lab_number'];
-                $ret="SELECT  * FROM his_laboratory WHERE lab_number = ?";
+                $ret="SELECT  * FROM laboratory WHERE lab_number = ?";
                 $stmt= $mysqli->prepare($ret) ;
                 $stmt->bind_param('i',$lab_number);
                 $stmt->execute() ;//ok
@@ -51,7 +51,7 @@
                                     <div class="page-title-box">
                                         <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item"><a href="his_doc_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="doc_dashboard.php">Dashboard</a></li>
                                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Laboratory Records</a></li>
                                                 <li class="breadcrumb-item active">View  Records</li>
                                             </ol>

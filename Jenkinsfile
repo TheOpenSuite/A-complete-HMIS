@@ -1,78 +1,122 @@
 pipeline {
-  agent {
-    docker {
-      image 'php:8.2-apache'  // Use a PHP-enabled image for testing
-      args '-v /var/run/docker.sock:/var/run/docker.sock'
+    agent any
+    environment {
+        DOCKER_IMAGE = "theopensuite/hmis-app"
     }
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-    GIT_COMMIT_SHORT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-  }
-  stages {
-    stage('Test') {
-      steps {
-        script {
-          // Run the first PHP server on port 8080 in the background
-          sh 'php -S localhost:8080 &'
-          def server1_pid = sh(script: 'echo $!', returnStdout: true).trim()
-
-          // Run the second PHP server on port 8000 in the background
-          sh 'php -S localhost:8000 &'
-          def server2_pid = sh(script: 'echo $!', returnStdout: true).trim()
-
-          // Function to check server response and handle failure
-          def checkServer = { port ->
-            def status = sh(script: "curl -s -o /dev/null -w \"%{http_code}\" http://localhost:${port}", returnStdout: true).trim()
-            return status == '200'
-          }
-
-          // Give servers a few seconds to start up (consider using a loop with retries)
-          def retries = 5
-          def success = false
-          for (int i = 0; i < retries; i++) {
-            if (checkServer(8080) && checkServer(8000)) {
-              success = true
-              break
+    stages {  
+        stage('Test') {
+            agent {
+                docker {
+                    image 'php:8.1-apache'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock --label ci-build=${env.BUILD_TAG}'
+                }
             }
-            sleep 2
-          }
+            steps {
+                script {
+                    // Build test image with labels
+                    sh """
+                        docker build -t ${DOCKER_IMAGE}:test-${env.BUILD_TAG} \\
+                            --label ci-build=${env.BUILD_TAG} \\
+                            --label stage=test \\
+                            .
+                    """
+                    
+                    // Create isolated network
+                    sh "docker network create --label ci-build=${env.BUILD_TAG} test-net-${env.BUILD_TAG}"
+                    
+                    // Start test container
+                    sh """
+                        docker run -d \\
+                            --name test-container-${env.BUILD_TAG} \\
+                            --network test-net-${env.BUILD_TAG} \\
+                            --label ci-build=${env.BUILD_TAG} \\
+                            -p 8083:80 \\
+                            ${DOCKER_IMAGE}:test-${env.BUILD_TAG}
+                    """
+                    
+                    // Health check using disposable curl container
+                    sh """
+                        docker run --rm \\
+                            --network test-net-${env.BUILD_TAG} \\
+                            --label ci-build=${env.BUILD_TAG} \\
+                            curlimages/curl \\
+                            -s -o /dev/null -w "%{http_code}" \\
+                            http://test-container-${env.BUILD_TAG}:80 \\
+                            | grep -q 200
+                    """
+                }
+            }
+            post {
+                always {
+                    script {
+                        // Remove test resources
+                        sh "docker stop test-container-${env.BUILD_TAG} || true"
+                        sh "docker rm test-container-${env.BUILD_TAG} || true"
+                        sh "docker network rm test-net-${env.BUILD_TAG} || true"
+                        sh "docker rmi ${DOCKER_IMAGE}:test-${env.BUILD_TAG} || true"
+                    }
+                }
+            }
+        }
 
-          if (!success) {
-            error "Test failed: Servers on localhost:8080 and/or localhost:8000 did not respond with HTTP 200."
-          } else {
-            echo "Servers on localhost:8080 and localhost:8000 are running correctly."
-          }
-
-          // Cleanup the PHP servers after testing
-          sh "kill ${server1_pid} ${server2_pid} || true"
+        stage('Build & Push') {
+            steps {
+                script {
+                    // Build production image
+                    sh """
+                        docker build -t ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER} \\
+                            -t ${DOCKER_IMAGE}:latest \\
+                            --label ci-build=${env.BUILD_TAG} \\
+                            --label stage=production \\
+                            .
+                    """
+                    
+                    // Push images
+                    withCredentials([usernamePassword(
+                        credentialsId: 'docker-hmis',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                        sh """
+                            echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+                            docker push ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER}
+                            docker push ${DOCKER_IMAGE}:latest
+                        """
+                    }
+                }
+            }
         }
-      }
     }
-    stage('Build & Tag') {
-      steps {
-        script {
-          // Build with both commit hash and latest tag
-          docker.build("your-dockerhub/hmis-app:${env.GIT_COMMIT_SHORT}")
-          docker.build("your-dockerhub/hmis-app:latest")
+    
+    post {
+        always {
+            script {
+                // Nuclear cleanup of all pipeline-created resources
+                sh """
+                    # Remove containers
+                    docker rm -f \$(docker ps -aq --filter "label=ci-build=${env.BUILD_TAG}") 2>/dev/null || true
+                    
+                    # Remove images
+                    docker rmi -f \$(docker images -q --filter "label=ci-build=${env.BUILD_TAG}") 2>/dev/null || true
+                    
+                    # Remove networks
+                    docker network rm \$(docker network ls -q --filter "label=ci-build=${env.BUILD_TAG}") 2>/dev/null || true
+                    
+                    # Remove volumes
+                    docker volume rm \$(docker volume ls -q --filter "label=ci-build=${env.BUILD_TAG}") 2>/dev/null || true
+                    
+                    # Cleanup all unused resources
+                    docker system prune -af --filter "label=ci-build=${env.BUILD_TAG}"
+                """
+                
+                // Final verification
+                sh """
+                    echo "=== Remaining Containers ==="
+                    docker ps -a --filter "label=ci-build=${env.BUILD_TAG}"
+                    echo "=== Remaining Images ==="
+                    docker images --filter "label=ci-build=${env.BUILD_TAG}"
+                """
+            }
         }
-      }
     }
-    stage('Push') {
-      steps {
-        script {
-          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-creds') {
-            docker.image("your-dockerhub/hmis-app:${env.GIT_COMMIT_SHORT}").push()
-            docker.image("your-dockerhub/hmis-app:latest").push()
-          }
-        }
-      }
-    }
-  }
-  post {
-    always {
-      // Cleanup unused Docker images
-      sh 'docker system prune -f'
-    }
-  }
 }

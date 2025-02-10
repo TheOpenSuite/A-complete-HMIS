@@ -9,7 +9,7 @@
             
             
             //sql to insert captured values
-			$query="INSERT INTO his_pharmaceuticals_categories (pharm_cat_name, pharm_cat_vendor, pharm_cat_desc) VALUES (?,?,?)";
+			$query="INSERT INTO pharmaceuticals_categories (pharm_cat_name, pharm_cat_vendor, pharm_cat_desc) VALUES (?,?,?)";
 			$stmt = $mysqli->prepare($query);
 			$rc=$stmt->bind_param('sss', $pharm_cat_name, $pharm_cat_vendor, $pharm_cat_desc);
 			$stmt->execute();
@@ -65,7 +65,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="his_doc_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="doc_dashboard.php">Dashboard</a></li>
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Pharmaceuticals</a></li>
                                             <li class="breadcrumb-item active">Add Pharmaceutical Category</li>
                                         </ol>
@@ -94,7 +94,7 @@
                                                     <select id="inputState" required="required" name="pharm_cat_vendor" class="form-control">
                                                     <?php
                                                     
-                                                        $ret="SELECT * FROM  his_vendor ORDER BY RAND() "; 
+                                                        $ret="SELECT * FROM  vendor ORDER BY RAND() "; 
                                                         //sql code to get to ten docs  randomly
                                                         $stmt= $mysqli->prepare($ret) ;
                                                         $stmt->execute() ;//ok

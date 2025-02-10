@@ -1,7 +1,7 @@
 <?php
     $doc_id = $_SESSION['doc_id'];
     $doc_number = $_SESSION['doc_number'];
-    $ret="SELECT * FROM  his_docs WHERE doc_id = ? AND doc_number = ?";
+    $ret="SELECT * FROM  docs WHERE doc_id = ? AND doc_number = ?";
     $stmt= $mysqli->prepare($ret) ;
     $stmt->bind_param('is',$doc_id, $doc_number);
     $stmt->execute() ;//ok
@@ -43,12 +43,12 @@
                     </div>
 
                     <!-- item-->
-                    <a href="his_doc_account.php" class="dropdown-item notify-item">
+                    <a href="doc_account.php" class="dropdown-item notify-item">
                         <i class="fas fa-user"></i>
                         <span>My Account</span>
                     </a>
 
-                    <a href="his_doc_update-account.php" class="dropdown-item notify-item">
+                    <a href="doc_update-account.php" class="dropdown-item notify-item">
                         <i class="fas fa-user-tag"></i>
                         <span>Update Account</span>
                     </a>
@@ -73,7 +73,7 @@
         <div class="logo-box">
             <a href="javascript:void(0);" class="logo text-center" onclick="refreshPage()">
                 <span class="logo-lg">
-                    <img src="assets/images/logo-light.png" alt="" height="18">
+                    <img src="assets/images/logo-light.png" alt="" height="45">
                 </span>
                 <span class="logo-sm">
                     <img src="assets/images/logo-sm.png" alt="" height="24">

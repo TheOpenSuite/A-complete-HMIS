@@ -17,17 +17,18 @@ This HMIS aims at having each department as a role, to better handle a real worl
 
 ### Core HMIS Modules
 - Patient Registration & Records
-- Appointment Scheduling
+- Pharmacy system
 - Laboratory Integration
 - Billing Processing
 - Payroll Processing
 - Vendor Management
-- **Original UI Preservation**
+- **Original UI Preserved**
 
 ### New Enhancements
 ➕ **Imporoved Pharmacy Management System**
+- Has their own layout
 - Drug inventory tracking
-- Prescription integration
+- Prescription status integration 
 - Supplier management
 - Expiry date alerts (Coming Soon!)
   
@@ -36,9 +37,13 @@ This HMIS aims at having each department as a role, to better handle a real worl
 - Doctor selection based on least patients
 - Multi-department coordination
 - Outpatient doctor management
+- Scheduling patients
 - Insurance verification (Coming Soon!)
 
 ### System Improvements
+- Each role with the appropriate intefaces for their role
+- Each Doctor can only see assigned patient
+- Appointment Scheduling
 - Role-Based Access Control (Not Fully Complete/Secure)
 
 <!-- ## 🛠️ Installation -->
@@ -65,6 +70,39 @@ This HMIS aims at having each department as a role, to better handle a real worl
 7. Access system:
    ```bash
    http://localhost/folder-name
+
+<!-- ### Setup Instructions
+1. Clone repository:
+   ```bash
+   git clone [repository-url] -->
+
+##
+
+## 🧪 Testing native
+### Local Environment Setup
+1. Install [Docker](https://www.docker.com/):
+2. Download the source files and the necessary docker files.
+   - Dockerfile
+   - docker-compose.yml
+
+3. Run the following command:
+   ```bash
+   docker compose -f docker-compose.yml up -d
+
+3. Access the site locally:
+   ```bash
+   http://localhost:8000/ -> For the website itself
+   http://localhost:8081/ -> For the phpmyadmin interface
+
+4. Create new database called my_db (Name can be changed but make sure to change it in the compose file)
+   
+5. Import the .sql file to myphpadmin with the same name.
+   
+7. Enjoy!
+
+- For the actual image or if you need to pull it, run the following command
+   ```bash
+docker push theopensuite/hmis-app:latest
 
 <!-- ### Setup Instructions
 1. Clone repository:

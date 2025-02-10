@@ -5,7 +5,7 @@
     {
         $ad_email=$_POST['ad_email'];
         $ad_pwd = $_POST['ad_pwd'];
-        $stmt=$mysqli->prepare("SELECT ad_email ,ad_pwd , ad_id FROM his_admin WHERE ad_email=?");//sql to log in user
+        $stmt=$mysqli->prepare("SELECT ad_email ,ad_pwd , ad_id FROM admin WHERE ad_email=?");//sql to log in user
         $stmt->bind_param('s',$ad_email);//bind fetched parameters
         $stmt->execute();//execute bind
         $stmt -> bind_result($ad_email,$hashed_password,$ad_id);//bind result
@@ -17,7 +17,7 @@
             {//if its sucessfull
                 $_SESSION['doc_id'] = $ad_id;
                 $_SESSION['doc_number'] = $ad_email;//assaign session to doc_number id
-                header("location:his_admin_dashboard.php");
+                header("location:admin_dashboard.php");
             }
 
         else
@@ -89,7 +89,7 @@
                                 
                                 <div class="text-center w-75 m-auto">
                                     <a href="index.php">
-                                        <span><img src="assets/images/logo-dark.png" alt="" height="22"></span>
+                                        <span><img src="assets/images/logo-dark.png" alt="" height="75"></span>
                                     </a>
                                     <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
                                 </div>
@@ -137,13 +137,6 @@
                             </div> <!-- end card-body -->
                         </div>
                         <!-- end card -->
-
-                        <div class="row mt-3">
-                            <div class="col-12 text-center">
-                                <p> <a href="his_admin_pwd_reset.php" class="text-white-50 ml-1">Forgot your password?</a></p>
-                               <!-- <p class="text-white-50">Don't have an account? <a href="his_admin_register.php" class="text-white ml-1"><b>Sign Up</b></a></p>-->
-                            </div> <!-- end col -->
-                        </div>
                         <!-- end row -->
 
                     </div> <!-- end col -->

@@ -6,7 +6,7 @@
         $doc_number = $_POST['doc_number'];
         //$doc_email = $_POST['doc_ea']
         $doc_pwd = $_POST['doc_pwd'];
-        $stmt=$mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE  doc_number=? AND doc_dept!='pharmacy'");//sql to log in user
+        $stmt=$mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM docs WHERE  doc_number=? AND doc_dept!='pharmacy'");//sql to log in user
         $stmt->bind_param('s', $doc_number);//bind fetched parameters
         $stmt->execute();//execute bind
         $stmt -> bind_result($doc_number, $hashed_password ,$doc_id);//bind result
@@ -17,7 +17,7 @@
             {//if its sucessfull
                 $_SESSION['doc_id'] = $doc_id;
                 $_SESSION['doc_number'] = $doc_number;//assaign session to doc_number id
-                header("location:his_doc_dashboard.php");
+                header("location:doc_dashboard.php");
             }
 
         else
@@ -89,7 +89,7 @@
                                 
                                 <div class="text-center w-75 m-auto">
                                     <a href="index.php">
-                                        <span><img src="assets/images/logo-dark.png" alt="" height="22"></span>
+                                        <span><img src="assets/images/logo-dark.png" alt="" height="75"></span>
                                     </a>
                                     <p class="text-muted mb-4 mt-3">Enter your email address and password to access Doctor panel.</p>
                                 </div>
@@ -137,13 +137,6 @@
                             </div> <!-- end card-body -->
                         </div>
                         <!-- end card -->
-
-                        <div class="row mt-3">
-                            <div class="col-12 text-center">
-                                <p> <a href="his_doc_reset_pwd.php" class="text-white-50 ml-1">Forgot your password?</a></p>
-                               <!-- <p class="text-white-50">Don't have an account? <a href="his_admin_register.php" class="text-white ml-1"><b>Sign Up</b></a></p>-->
-                            </div> <!-- end col -->
-                        </div>
                         <!-- end row -->
 
                     </div> <!-- end col -->

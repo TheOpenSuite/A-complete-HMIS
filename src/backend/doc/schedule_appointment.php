@@ -3,7 +3,7 @@ session_start();
 include('assets/inc/config.php');
 
 // Automatically delete appointments older than 30 minutes
-$autoDeleteQuery = "DELETE FROM his_appointment WHERE schedule_time <= NOW() - INTERVAL 30 MINUTE AND status = 'pending'";
+$autoDeleteQuery = "DELETE FROM appointment WHERE schedule_time <= NOW() - INTERVAL 30 MINUTE AND status = 'pending'";
 $mysqli->query($autoDeleteQuery);
 /* 
 To have full automation for the deletion. You can use a cron job to run this script every 30 minutes by make a php file with the following code and upload it to your server.
@@ -29,8 +29,8 @@ if (isset($_POST['schedule_appointment'])) {
     if ($pat_doc_id === 'random') {
         $stmt = $mysqli->prepare("
             SELECT d.doc_id 
-            FROM his_docs d 
-            LEFT JOIN his_patients p ON d.doc_id = p.pat_doc_id 
+            FROM docs d 
+            LEFT JOIN patients p ON d.doc_id = p.pat_doc_id 
             WHERE d.doc_dept = ? 
             AND CURTIME() BETWEEN d.doc_start_time AND d.doc_end_time
             GROUP BY d.doc_id 
@@ -58,7 +58,7 @@ if (isset($_POST['schedule_appointment'])) {
     }
 
     // Insert appointment into the database
-    $query = "INSERT INTO his_appointment (pat_fname, pat_lname, pat_phone, pat_dept, pat_doc_id, schedule_time, status, pat_dob, pat_age, pat_addr, pat_ailment, pat_type, pat_number) 
+    $query = "INSERT INTO appointment (pat_fname, pat_lname, pat_phone, pat_dept, pat_doc_id, schedule_time, status, pat_dob, pat_age, pat_addr, pat_ailment, pat_type, pat_number) 
               VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('ssssssssisss', $pat_fname, $pat_lname, $pat_phone, $pat_dept, $pat_doc_id, $schedule_time, $pat_dob, $pat_age, $pat_addr, $pat_ailment, $pat_type, $pat_number);
@@ -74,7 +74,7 @@ if (isset($_POST['schedule_appointment'])) {
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    $deleteQuery = "DELETE FROM his_appointment WHERE id = ?";
+    $deleteQuery = "DELETE FROM appointment WHERE id = ?";
     $stmt = $mysqli->prepare($deleteQuery);
     $stmt->bind_param('i', $delete_id);
     $stmt->execute();
@@ -89,15 +89,15 @@ if (isset($_GET['delete_id'])) {
 // Handle appointment confirmation
 if (isset($_GET['confirm_id'])) {
     $confirm_id = $_GET['confirm_id'];
-    $confirmQuery = "INSERT INTO his_patients (pat_fname, pat_lname, pat_phone, pat_dept, pat_doc_id, pat_dob, pat_age, pat_addr, pat_ailment, pat_type, pat_number) 
+    $confirmQuery = "INSERT INTO patients (pat_fname, pat_lname, pat_phone, pat_dept, pat_doc_id, pat_dob, pat_age, pat_addr, pat_ailment, pat_type, pat_number) 
                      SELECT pat_fname, pat_lname, pat_phone, pat_dept, pat_doc_id, pat_dob, pat_age, pat_addr, pat_ailment, pat_type, pat_number 
-                     FROM his_appointment WHERE id = ?";
+                     FROM appointment WHERE id = ?";
     $stmt = $mysqli->prepare($confirmQuery);
     $stmt->bind_param('i', $confirm_id);
     $stmt->execute();
 
     if ($stmt) {
-        $deleteQuery = "DELETE FROM his_appointment WHERE id = ?";
+        $deleteQuery = "DELETE FROM appointment WHERE id = ?";
         $stmt = $mysqli->prepare($deleteQuery);
         $stmt->bind_param('i', $confirm_id);
         $stmt->execute();
@@ -177,7 +177,7 @@ if (isset($_GET['confirm_id'])) {
                                 <select name="pat_dept" class="form-control" required>
                                     <option value="">Select</option>
                                     <?php
-                                    $deptQuery = "SELECT dept_name FROM his_departments WHERE dept_name != 'Reception' AND dept_name != 'Pharmacy'";
+                                    $deptQuery = "SELECT dept_name FROM departments WHERE dept_name != 'Reception' AND dept_name != 'Pharmacy'";
                                     $result = $mysqli->query($deptQuery);
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<option value='{$row['dept_name']}'>{$row['dept_name']}</option>";
@@ -242,8 +242,8 @@ if (isset($_GET['confirm_id'])) {
                                 <tbody>
                                     <?php
                                     $appointmentQuery = "SELECT a.*, d.doc_fname, d.doc_lname 
-                                    FROM his_appointment a 
-                                    LEFT JOIN his_docs d ON a.pat_doc_id = d.doc_id
+                                    FROM appointment a 
+                                    LEFT JOIN docs d ON a.pat_doc_id = d.doc_id
                                     WHERE a.status = 'pending'";
                                     $result = $mysqli->query($appointmentQuery);
                                     while ($row = $result->fetch_assoc()) {

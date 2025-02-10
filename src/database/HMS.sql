@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_accounts`
+-- Table structure for table `accounts`
 --
 
-CREATE TABLE `his_accounts` (
+CREATE TABLE `accounts` (
   `acc_id` int(200) NOT NULL,
   `acc_name` varchar(200) DEFAULT NULL,
   `acc_desc` text DEFAULT NULL,
@@ -37,20 +37,20 @@ CREATE TABLE `his_accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_accounts`
+-- Dumping data for table `accounts`
 --
 
-INSERT INTO `his_accounts` (`acc_id`, `acc_name`, `acc_desc`, `acc_type`, `acc_number`, `acc_amount`) VALUES
+INSERT INTO `accounts` (`acc_id`, `acc_name`, `acc_desc`, `acc_type`, `acc_number`, `acc_amount`) VALUES
 (1, 'Individual Retirement Account', '<p>IRA&rsquo;s are simply an account where you stash your money for retirement. The concept is pretty simple, your account balance is not taxed UNTIL you withdraw, at which point you pay the taxes there. This allows you to grow your account with interest without taxes taking away from the balance. The net result is you earn more money.</p>', 'Payable Account', '518703294', '250000'),
 (2, 'Equity Bank', '<p>Find <em>bank account</em> stock <em>images</em> in HD and millions of other royalty-free stock photos, illustrations and vectors in the Shutterstock collection. Thousands of new</p>', 'Receivable Account', '753680912', '500000000');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_admin`
+-- Table structure for table `admin`
 --
 
-CREATE TABLE `his_admin` (
+CREATE TABLE `admin` (
   `ad_id` int(20) NOT NULL,
   `ad_fname` varchar(200) DEFAULT NULL,
   `ad_lname` varchar(200) DEFAULT NULL,
@@ -60,19 +60,19 @@ CREATE TABLE `his_admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_admin`
+-- Dumping data for table `admin`
 --
 
-INSERT INTO `his_admin` (`ad_id`, `ad_fname`, `ad_lname`, `ad_email`, `ad_pwd`, `ad_dpic`) VALUES
+INSERT INTO `admin` (`ad_id`, `ad_fname`, `ad_lname`, `ad_email`, `ad_pwd`, `ad_dpic`) VALUES
 (1, 'System', 'Administrator', 'admin@admin.com', '$2y$10$aZHjiEzieE1ibs7nwm7FEu4G8DXgoaFx8PwsadIb83ZXAzKhsDjPy', 'doctor_admin_icon_4-512.png');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_appointment`
+-- Table structure for table `appointment`
 --
 
-CREATE TABLE `his_appointment` (
+CREATE TABLE `appointment` (
   `id` int(20) NOT NULL,
   `pat_fname` varchar(200) DEFAULT NULL,
   `pat_lname` varchar(200) DEFAULT NULL,
@@ -92,10 +92,10 @@ CREATE TABLE `his_appointment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_appointments`
+-- Table structure for table `appointments`
 --
 
-CREATE TABLE `his_appointments` (
+CREATE TABLE `appointments` (
   `pat_id` int(20) NOT NULL,
   `doc_id` int(20) NOT NULL,
   `app_date` date NOT NULL,
@@ -113,10 +113,10 @@ CREATE TABLE `his_appointments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_assets`
+-- Table structure for table `assets`
 --
 
-CREATE TABLE `his_assets` (
+CREATE TABLE `assets` (
   `asst_id` int(20) NOT NULL,
   `asst_name` varchar(200) DEFAULT NULL,
   `asst_desc` longtext DEFAULT NULL,
@@ -128,19 +128,19 @@ CREATE TABLE `his_assets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_departments`
+-- Table structure for table `departments`
 --
 
-CREATE TABLE `his_departments` (
+CREATE TABLE `departments` (
   `dept_id` int(20) NOT NULL,
   `dept_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_departments`
+-- Dumping data for table `departments`
 --
 
-INSERT INTO `his_departments` (`dept_id`, `dept_name`) VALUES
+INSERT INTO `departments` (`dept_id`, `dept_name`) VALUES
 (1, 'Surgery'),
 (2, 'Pharmacy'),
 (3, 'Reception'),
@@ -149,10 +149,10 @@ INSERT INTO `his_departments` (`dept_id`, `dept_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_docs`
+-- Table structure for table `docs`
 --
 
-CREATE TABLE `his_docs` (
+CREATE TABLE `docs` (
   `doc_id` int(20) NOT NULL,
   `doc_fname` varchar(200) DEFAULT NULL,
   `doc_lname` varchar(200) DEFAULT NULL,
@@ -166,10 +166,10 @@ CREATE TABLE `his_docs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_docs`
+-- Dumping data for table `docs`
 --
 
-INSERT INTO `his_docs` (`doc_id`, `doc_fname`, `doc_lname`, `doc_email`, `doc_pwd`, `doc_dept`, `doc_number`, `doc_dpic`, `doc_start_time`, `doc_end_time`) VALUES
+INSERT INTO `docs` (`doc_id`, `doc_fname`, `doc_lname`, `doc_email`, `doc_pwd`, `doc_dept`, `doc_number`, `doc_dpic`, `doc_start_time`, `doc_end_time`) VALUES
 (3, 'purity', 'nduku', 'puritynduku@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', 'Surgery', '65YSD', NULL, '06:00:00', '18:00:00'),
 (4, 'mr wilson', 'musyoka', 'wilson@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', '', 'Y0F9K', NULL, NULL, NULL),
 (5, 'test', 'test', 'mark@gmail.com', '$2y$10$nOErD/1YtWzUXo/TBLpawemIeNBDFNr6tMlTRfT6Q2Llm8l2RK2P2', 'Surgery', '2Z1A5', NULL, '01:38:56', '23:38:56'),
@@ -181,10 +181,10 @@ INSERT INTO `his_docs` (`doc_id`, `doc_fname`, `doc_lname`, `doc_email`, `doc_pw
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_equipments`
+-- Table structure for table `equipments`
 --
 
-CREATE TABLE `his_equipments` (
+CREATE TABLE `equipments` (
   `eqp_id` int(20) NOT NULL,
   `eqp_code` varchar(200) DEFAULT NULL,
   `eqp_name` varchar(200) DEFAULT NULL,
@@ -196,20 +196,20 @@ CREATE TABLE `his_equipments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_equipments`
+-- Dumping data for table `equipments`
 --
 
-INSERT INTO `his_equipments` (`eqp_id`, `eqp_code`, `eqp_name`, `eqp_vendor`, `eqp_desc`, `eqp_dept`, `eqp_status`, `eqp_qty`) VALUES
+INSERT INTO `equipments` (`eqp_id`, `eqp_code`, `eqp_name`, `eqp_vendor`, `eqp_desc`, `eqp_dept`, `eqp_status`, `eqp_qty`) VALUES
 (2, '178640239', 'TestTubes', 'Casio', '<p>Testtubes are used to perform lab tests--</p>', 'Laboratory', 'Functioning', '700000'),
 (3, '052367981', 'Surgical Robot', 'Nexus', '<p>Surgical Robots aid in surgey process.</p>', 'Surgical | Theatre', 'Functioning', '100');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_laboratory`
+-- Table structure for table `laboratory`
 --
 
-CREATE TABLE `his_laboratory` (
+CREATE TABLE `laboratory` (
   `lab_id` int(20) NOT NULL,
   `lab_pat_name` varchar(200) DEFAULT NULL,
   `lab_pat_ailment` varchar(200) DEFAULT NULL,
@@ -222,10 +222,10 @@ CREATE TABLE `his_laboratory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_laboratory`
+-- Dumping data for table `laboratory`
 --
 
-INSERT INTO `his_laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_pat_number`, `lab_pat_tests`, `lab_pat_results`, `lab_number`, `lab_doc_id`, `lab_date_rec`) VALUES
+INSERT INTO `laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_pat_number`, `lab_pat_tests`, `lab_pat_results`, `lab_number`, `lab_doc_id`, `lab_date_rec`) VALUES
 (4, 'Morsyyyyyyyyyyyyyyy Sayaaaaaaa7', 'idfk', '6VUE2', '<p>lmaoooo</p>', '<p>wlamm</p>', 'ADPVR', 5, '2024-12-26 12:38:56'),
 (5, 'tayb mashy', '2', '091HI', '<p>test</p>', NULL, 'FC4JR', 1, '2024-12-26 13:33:49'),
 (14, 'last test', 'dead', 'WOD9J', '<p>sex</p>', '<p>awy</p>', '2ADQZ', 5, '2024-12-26 13:33:21'),
@@ -235,10 +235,10 @@ INSERT INTO `his_laboratory` (`lab_id`, `lab_pat_name`, `lab_pat_ailment`, `lab_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_medical_records`
+-- Table structure for table `medical_records`
 --
 
-CREATE TABLE `his_medical_records` (
+CREATE TABLE `medical_records` (
   `mdr_id` int(20) NOT NULL,
   `mdr_number` varchar(200) DEFAULT NULL,
   `mdr_pat_name` varchar(200) DEFAULT NULL,
@@ -251,19 +251,19 @@ CREATE TABLE `his_medical_records` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_medical_records`
+-- Dumping data for table `medical_records`
 --
 
-INSERT INTO `his_medical_records` (`mdr_id`, `mdr_number`, `mdr_pat_name`, `mdr_pat_adr`, `mdr_pat_age`, `mdr_pat_ailment`, `mdr_pat_number`, `mdr_pat_prescr`, `mdr_date_rec`) VALUES
+INSERT INTO `medical_records` (`mdr_id`, `mdr_number`, `mdr_pat_name`, `mdr_pat_adr`, `mdr_pat_age`, `mdr_pat_ailment`, `mdr_pat_number`, `mdr_pat_prescr`, `mdr_date_rec`) VALUES
 (1, 'ZNXI4', 'John Doe', '12 900 Los Angeles', '35', 'Malaria', 'RAV6C', '<ul><li>Combination of atovaquone and proguanil (Malarone)</li><li>Quinine sulfate (Qualaquin) with doxycycline (Vibramycin, Monodox, others)</li><li>Mefloquine.</li><li>Primaquine phosphate.</li></ul>', '2020-01-11 15:03:05.9839');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_patients`
+-- Table structure for table `patients`
 --
 
-CREATE TABLE `his_patients` (
+CREATE TABLE `patients` (
   `pat_id` int(20) NOT NULL,
   `pat_fname` varchar(200) DEFAULT NULL,
   `pat_lname` varchar(200) DEFAULT NULL,
@@ -281,10 +281,10 @@ CREATE TABLE `his_patients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_patients`
+-- Dumping data for table `patients`
 --
 
-INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_number`, `pat_addr`, `pat_phone`, `pat_type`, `pat_dept`, `pat_doc_id`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
+INSERT INTO `patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_age`, `pat_number`, `pat_addr`, `pat_phone`, `pat_type`, `pat_dept`, `pat_doc_id`, `pat_date_joined`, `pat_ailment`, `pat_discharge_status`) VALUES
 (6, 'purity', 'nduku', '0000-00-00', 25, '1DX5Z', 'machakos', '078643556', 'InPatient', NULL, 3, '2024-12-26 13:34:05.395007', '1234', NULL),
 (7, 'Morsyyyyyyyyyyyyyyy', 'Sayaaaaaaa7', '0000-00-00', 23, '6VUE2', 'c', '010', 'InPatient', NULL, 5, '2024-12-28 13:23:28.948869', 'idfk', 'Returned'),
 (8, 'tayb', 'mashy', '0000-00-00', 23, '8V7IN', 'c', '12', 'InPatient', 'Surgery', 3, '2024-12-28 13:33:46.894888', '2', NULL),
@@ -297,10 +297,10 @@ INSERT INTO `his_patients` (`pat_id`, `pat_fname`, `pat_lname`, `pat_dob`, `pat_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_patient_transfers`
+-- Table structure for table `patient_transfers`
 --
 
-CREATE TABLE `his_patient_transfers` (
+CREATE TABLE `patient_transfers` (
   `t_id` int(20) NOT NULL,
   `t_hospital` varchar(200) DEFAULT NULL,
   `t_date` varchar(200) DEFAULT NULL,
@@ -311,19 +311,19 @@ CREATE TABLE `his_patient_transfers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_patient_transfers`
+-- Dumping data for table `patient_transfers`
 --
 
-INSERT INTO `his_patient_transfers` (`t_id`, `t_hospital`, `t_date`, `t_pat_name`, `t_pat_number`, `t_status`, `t_doc_id`) VALUES
+INSERT INTO `patient_transfers` (`t_id`, `t_hospital`, `t_date`, `t_pat_name`, `t_pat_number`, `t_status`, `t_doc_id`) VALUES
 (1, 'Kenyatta National Hospital', '2020-01-11', 'hos', '9KXPM', 'Success', 5);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_payrolls`
+-- Table structure for table `payrolls`
 --
 
-CREATE TABLE `his_payrolls` (
+CREATE TABLE `payrolls` (
   `pay_id` int(20) NOT NULL,
   `pay_number` varchar(200) DEFAULT NULL,
   `pay_doc_name` varchar(200) DEFAULT NULL,
@@ -336,20 +336,20 @@ CREATE TABLE `his_payrolls` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_payrolls`
+-- Dumping data for table `payrolls`
 --
 
-INSERT INTO `his_payrolls` (`pay_id`, `pay_number`, `pay_doc_name`, `pay_doc_number`, `pay_doc_email`, `pay_emp_salary`, `pay_date_generated`, `pay_status`, `pay_descr`) VALUES
+INSERT INTO `payrolls` (`pay_id`, `pay_number`, `pay_doc_name`, `pay_doc_number`, `pay_doc_email`, `pay_emp_salary`, `pay_date_generated`, `pay_status`, `pay_descr`) VALUES
 (2, 'HUT1B', 'Martin Mbithi', 'N8TI0', 'pay@gmail.org', '30000', '2020-01-13 10:10:21.4162', 'Paid', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,</p>'),
 (3, 'OE2B3', 'test test', '2Z1A5', 'mark@gmail.com', '100', '2024-12-25 15:01:21.9587', 'Unpaid', '<p>a7a</p>');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_pharmaceuticals`
+-- Table structure for table `pharmaceuticals`
 --
 
-CREATE TABLE `his_pharmaceuticals` (
+CREATE TABLE `pharmaceuticals` (
   `phar_id` int(20) NOT NULL,
   `phar_name` varchar(200) DEFAULT NULL,
   `phar_bcode` varchar(200) DEFAULT NULL,
@@ -360,20 +360,20 @@ CREATE TABLE `his_pharmaceuticals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_pharmaceuticals`
+-- Dumping data for table `pharmaceuticals`
 --
 
-INSERT INTO `his_pharmaceuticals` (`phar_id`, `phar_name`, `phar_bcode`, `phar_desc`, `phar_qty`, `phar_cat`, `phar_vendor`) VALUES
+INSERT INTO `pharmaceuticals` (`phar_id`, `phar_name`, `phar_bcode`, `phar_desc`, `phar_qty`, `phar_cat`, `phar_vendor`) VALUES
 (1, 'Paracetamol', '134057629', '<ul><li><strong>Paracetamol</strong>, also known as <strong>acetaminophen</strong> and <strong>APAP</strong>, is a medication used to treat <a href=\"https://en.wikipedia.org/wiki/Pain\">pain</a> and <a href=\"https://en.wikipedia.org/wiki/Fever\">fever</a>. It is typically used for mild to moderate pain relief. There is mixed evidence for its use to relieve fever in children.&nbsp; It is often sold in combination with other medications, such as in many <a href=\"https://en.wikipedia.org/wiki/Cold_medication\">cold medications</a> Paracetamol is also used for severe pain, such as <a href=\"https://en.wikipedia.org/wiki/Cancer_pain\">cancer pain</a> and pain after surgery, in combination with <a href=\"https://en.wikipedia.org/wiki/Opioid_analgesic\">opioid pain medication</a>. It is typically used either by mouth or <a href=\"https://en.wikipedia.org/wiki/Rectally\">rectally</a>, but is also available by <a href=\"https://en.wikipedia.org/wiki/Intravenous\">injection into a vein</a>. Effects last between two and four hours.</li><li>Paracetamol is generally safe at recommended doses.The recommended maximum daily dose for an adult is three to four grams. Higher doses may lead to toxicity, including <a href=\"https://en.wikipedia.org/wiki/Liver_failure\">liver failure</a> Serious skin rashes may rarely occur. It appears to be safe during <a href=\"https://en.wikipedia.org/wiki/Pregnancy\">pregnancy</a> and when <a href=\"https://en.wikipedia.org/wiki/Breastfeeding\">breastfeeding</a>.In those with liver disease, it may still be used, but in lower doses. It is classified as a mild <a href=\"https://en.wikipedia.org/wiki/Analgesic\">analgesic</a>. It does not have significant <a href=\"https://en.wikipedia.org/wiki/Anti-inflammatory\">anti-inflammatory</a> activity. How it works is not entirely clear.</li><li>Paracetamol was first made in 1877. It is the most commonly used medication for pain and fever in both the United States and Europe. It is on the <a href=\"https://en.wikipedia.org/wiki/World_Health_Organization%27s_List_of_Essential_Medicines\">World Health Organization&#39;s List of Essential Medicines</a>, the safest and most effective medicines needed in a <a href=\"https://en.wikipedia.org/wiki/Health_system\">health system</a>.<a href=\"https://en.wikipedia.org/wiki/Paracetamol#cite_note-WHO21st-24\">[24]</a> Paracetamol is available as a <a href=\"https://en.wikipedia.org/wiki/Generic_medication\">generic medication</a> with trade names including <a href=\"https://en.wikipedia.org/wiki/Tylenol_(brand)\">Tylenol</a> and <a href=\"https://en.wikipedia.org/wiki/Panadol_(brand)\">Panadol</a>, among others.The wholesale price in the <a href=\"https://en.wikipedia.org/wiki/Developing_world\">developing world</a> is less than US$0.01 per dose. In the United States, it costs about US$0.04 per dose. In 2019, it was the 17th most prescribed medication in the United States, with more than 29&nbsp;million prescriptions.</li></ul>', '500', 'Antipyretics', 'Dawa Limited Kenya'),
 (2, 'Aspirin', '452760813', '<ul><li><strong>Aspirin</strong>, also known as <strong>acetylsalicylic acid</strong> (<strong>ASA</strong>), is a <a href=\"https://en.wikipedia.org/wiki/Medication\">medication</a> used to reduce <a href=\"https://en.wikipedia.org/wiki/Pain\">pain</a>, <a href=\"https://en.wikipedia.org/wiki/Fever\">fever</a>, or <a href=\"https://en.wikipedia.org/wiki/Inflammation\">inflammation</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Specific inflammatory conditions which aspirin is used to treat include <a href=\"https://en.wikipedia.org/wiki/Kawasaki_disease\">Kawasaki disease</a>, <a href=\"https://en.wikipedia.org/wiki/Pericarditis\">pericarditis</a>, and <a href=\"https://en.wikipedia.org/wiki/Rheumatic_fever\">rheumatic fever</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin given shortly after a <a href=\"https://en.wikipedia.org/wiki/Myocardial_infarction\">heart attack</a> decreases the risk of death.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin is also used long-term to help prevent further heart attacks, <a href=\"https://en.wikipedia.org/wiki/Ischaemic_stroke\">ischaemic strokes</a>, and <a href=\"https://en.wikipedia.org/wiki/Thrombus\">blood clots</a> in people at high risk.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> It may also decrease the risk of certain types of <a href=\"https://en.wikipedia.org/wiki/Cancer\">cancer</a>, particularly <a href=\"https://en.wikipedia.org/wiki/Colorectal_cancer\">colorectal cancer</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-6\">[6]</a> For pain or fever, effects typically begin within 30 minutes.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin is a <a href=\"https://en.wikipedia.org/wiki/Nonsteroidal_anti-inflammatory_drug\">nonsteroidal anti-inflammatory drug</a> (NSAID) and works similarly to other NSAIDs but also suppresses the normal functioning of <a href=\"https://en.wikipedia.org/wiki/Platelet\">platelets</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a></li><li>One common <a href=\"https://en.wikipedia.org/wiki/Adverse_effect\">adverse effect</a> is an <a href=\"https://en.wikipedia.org/wiki/Upset_stomach\">upset stomach</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> More significant side effects include <a href=\"https://en.wikipedia.org/wiki/Stomach_ulcer\">stomach ulcers</a>, <a href=\"https://en.wikipedia.org/wiki/Stomach_bleeding\">stomach bleeding</a>, and worsening <a href=\"https://en.wikipedia.org/wiki/Asthma\">asthma</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Bleeding risk is greater among those who are older, drink <a href=\"https://en.wikipedia.org/wiki/Alcohol_(drug)\">alcohol</a>, take other NSAIDs, or are on other <a href=\"https://en.wikipedia.org/wiki/Anticoagulants\">blood thinners</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> Aspirin is not recommended in the last part of <a href=\"https://en.wikipedia.org/wiki/Pregnancy\">pregnancy</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> It is not generally recommended in children with <a href=\"https://en.wikipedia.org/wiki/Infection\">infections</a> because of the risk of <a href=\"https://en.wikipedia.org/wiki/Reye_syndrome\">Reye syndrome</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a> High doses may result in <a href=\"https://en.wikipedia.org/wiki/Tinnitus\">ringing in the ears</a>.<a href=\"https://en.wikipedia.org/wiki/Aspirin#cite_note-AHSF2016-5\">[5]</a></li></ul>', '500', 'Analgesics', 'Cosmos Kenya Limited');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_pharmaceuticals_categories`
+-- Table structure for table `pharmaceuticals_categories`
 --
 
-CREATE TABLE `his_pharmaceuticals_categories` (
+CREATE TABLE `pharmaceuticals_categories` (
   `pharm_cat_id` int(20) NOT NULL,
   `pharm_cat_name` varchar(200) DEFAULT NULL,
   `pharm_cat_vendor` varchar(200) DEFAULT NULL,
@@ -381,10 +381,10 @@ CREATE TABLE `his_pharmaceuticals_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_pharmaceuticals_categories`
+-- Dumping data for table `pharmaceuticals_categories`
 --
 
-INSERT INTO `his_pharmaceuticals_categories` (`pharm_cat_id`, `pharm_cat_name`, `pharm_cat_vendor`, `pharm_cat_desc`) VALUES
+INSERT INTO `pharmaceuticals_categories` (`pharm_cat_id`, `pharm_cat_name`, `pharm_cat_vendor`, `pharm_cat_desc`) VALUES
 (1, 'Antipyretics', 'Cosmos Kenya Limited', ''),
 (2, 'Analgesics', 'Dawa Limited Kenya', ''),
 (3, 'Antibiotics', 'Cosmos Kenya Limited', ''),
@@ -393,10 +393,10 @@ INSERT INTO `his_pharmaceuticals_categories` (`pharm_cat_id`, `pharm_cat_name`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_prescriptions`
+-- Table structure for table `prescriptions`
 --
 
-CREATE TABLE `his_prescriptions` (
+CREATE TABLE `prescriptions` (
   `pres_id` int(200) NOT NULL,
   `pres_pat_name` varchar(200) DEFAULT NULL,
   `pres_pat_age` varchar(200) DEFAULT NULL,
@@ -411,10 +411,10 @@ CREATE TABLE `his_prescriptions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_prescriptions`
+-- Dumping data for table `prescriptions`
 --
 
-INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pres_pat_number`, `pres_number`, `pres_pat_addr`, `pres_pat_type`, `pres_date`, `pres_pat_ailment`, `pres_ins`, `pres_status`) VALUES
+INSERT INTO `prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pres_pat_number`, `pres_number`, `pres_pat_addr`, `pres_pat_type`, `pres_date`, `pres_pat_ailment`, `pres_ins`, `pres_status`) VALUES
 (4, 'John Doe', '30', 'RAV6C', 'HZQ8J', '12 900 NYE', 'OutPatient', '2024-12-28 11:08:47', 'Malaria', '', 'Pending'),
 (5, 'Lorem Ipsum', '10', '7EW0L', 'HQC3D', '12 9001 Machakos', 'OutPatient', '2024-12-28 11:08:51', 'Flu', '', 'Pending'),
 (6, 'Morsyyyyyyyyyyyyyyy Sayaaaaaaa7', '23', '6VUE2', '0M7SH', 'c', 'InPatient', '2025-01-29 14:50:13', 'idfk', '<p>LMAOOOOO</p>', 'Pending'),
@@ -425,10 +425,10 @@ INSERT INTO `his_prescriptions` (`pres_id`, `pres_pat_name`, `pres_pat_age`, `pr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_pwdresets`
+-- Table structure for table `pwdresets`
 --
 
-CREATE TABLE `his_pwdresets` (
+CREATE TABLE `pwdresets` (
   `id` int(20) NOT NULL,
   `email` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -436,10 +436,10 @@ CREATE TABLE `his_pwdresets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_receptionists`
+-- Table structure for table `receptionists`
 --
 
-CREATE TABLE `his_receptionists` (
+CREATE TABLE `receptionists` (
   `receptionist_id` int(20) NOT NULL,
   `receptionist_fname` varchar(200) DEFAULT NULL,
   `receptionist_lname` varchar(200) DEFAULT NULL,
@@ -450,10 +450,10 @@ CREATE TABLE `his_receptionists` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_receptionists`
+-- Dumping data for table `receptionists`
 --
 
-INSERT INTO `his_receptionists` (`receptionist_id`, `receptionist_fname`, `receptionist_lname`, `receptionist_email`, `receptionist_pwd`, `receptionist_phone`, `receptionist_dpic`) VALUES
+INSERT INTO `receptionists` (`receptionist_id`, `receptionist_fname`, `receptionist_lname`, `receptionist_email`, `receptionist_pwd`, `receptionist_phone`, `receptionist_dpic`) VALUES
 (1, 'Marwan', 'Sami', 'marwan@gmail.com', 'a69681bcf334ae130217fea4505fd3c994f5683f', '123-456-7890', NULL),
 (2, 'Omar', 'Ashraf', 'omar@gmail.com', 'b29281bcf334ae130217fea4505fd3c994f5683f', '098-765-4321', NULL),
 (4, 'test', 'test', 'test@test.test', '$2y$10$n8Z62dhC5C7.d3bYiN/16e.qxweQe0pIIn8baB/RP3itnI68JPziS', NULL, NULL),
@@ -462,10 +462,10 @@ INSERT INTO `his_receptionists` (`receptionist_id`, `receptionist_fname`, `recep
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_surgery`
+-- Table structure for table `surgery`
 --
 
-CREATE TABLE `his_surgery` (
+CREATE TABLE `surgery` (
   `s_id` int(200) NOT NULL,
   `s_number` varchar(200) DEFAULT NULL,
   `s_doc` varchar(200) DEFAULT NULL,
@@ -477,19 +477,19 @@ CREATE TABLE `his_surgery` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_surgery`
+-- Dumping data for table `surgery`
 --
 
-INSERT INTO `his_surgery` (`s_id`, `s_number`, `s_doc`, `s_pat_number`, `s_pat_name`, `s_pat_ailment`, `s_pat_date`, `s_pat_status`) VALUES
+INSERT INTO `surgery` (`s_id`, `s_number`, `s_doc`, `s_pat_number`, `s_pat_name`, `s_pat_ailment`, `s_pat_date`, `s_pat_status`) VALUES
 (2, '8KQWD', 'Martin Mbithi', 'RAV6C', 'John Doe', 'Malaria', '2020-01-13 08:50:10.649889', 'Successful');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_vendor`
+-- Table structure for table `vendor`
 --
 
-CREATE TABLE `his_vendor` (
+CREATE TABLE `vendor` (
   `v_id` int(20) NOT NULL,
   `v_number` varchar(200) DEFAULT NULL,
   `v_name` varchar(200) DEFAULT NULL,
@@ -501,19 +501,19 @@ CREATE TABLE `his_vendor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_vendor`
+-- Dumping data for table `vendor`
 --
 
-INSERT INTO `his_vendor` (`v_id`, `v_number`, `v_name`, `v_adr`, `v_mobile`, `v_email`, `v_phone`, `v_desc`) VALUES
+INSERT INTO `vendor` (`v_id`, `v_number`, `v_name`, `v_adr`, `v_mobile`, `v_email`, `v_phone`, `v_desc`) VALUES
 (1, '6ISKC', 'Cosmos Pharmaceutical Limited', 'P.O. Box 41433, GPO 00100 Nairobi, Kenya', '', 'info@cosmospharmaceuticallimited.com', '+254(20)550700-9', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `his_vitals`
+-- Table structure for table `vitals`
 --
 
-CREATE TABLE `his_vitals` (
+CREATE TABLE `vitals` (
   `vit_id` int(20) NOT NULL,
   `vit_number` varchar(200) DEFAULT NULL,
   `vit_pat_number` varchar(200) DEFAULT NULL,
@@ -525,10 +525,10 @@ CREATE TABLE `his_vitals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `his_vitals`
+-- Dumping data for table `vitals`
 --
 
-INSERT INTO `his_vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytemp`, `vit_heartpulse`, `vit_resprate`, `vit_bloodpress`, `vit_daterec`) VALUES
+INSERT INTO `vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytemp`, `vit_heartpulse`, `vit_resprate`, `vit_bloodpress`, `vit_daterec`) VALUES
 (3, 'HJCXL', '6VUE2', '0', '0', '0', '0', '2024-12-24 18:03:41.891100'),
 (4, 'TWVG9', 'WOD9J', '1', '2', '3', '4', '2024-12-26 12:59:46.426217'),
 (5, 'TN4LF', 'UW5DH', '0', '0', '0', '0', '2024-12-28 12:42:52.987808'),
@@ -539,133 +539,133 @@ INSERT INTO `his_vitals` (`vit_id`, `vit_number`, `vit_pat_number`, `vit_bodytem
 --
 
 --
--- Indexes for table `his_accounts`
+-- Indexes for table `accounts`
 --
-ALTER TABLE `his_accounts`
+ALTER TABLE `accounts`
   ADD PRIMARY KEY (`acc_id`);
 
 --
--- Indexes for table `his_admin`
+-- Indexes for table `admin`
 --
-ALTER TABLE `his_admin`
+ALTER TABLE `admin`
   ADD PRIMARY KEY (`ad_id`);
 
 --
--- Indexes for table `his_appointment`
+-- Indexes for table `appointment`
 --
-ALTER TABLE `his_appointment`
+ALTER TABLE `appointment`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `his_appointments`
+-- Indexes for table `appointments`
 --
-ALTER TABLE `his_appointments`
+ALTER TABLE `appointments`
   ADD KEY `pat_id` (`pat_id`),
   ADD KEY `doc_id` (`doc_id`);
 
 --
--- Indexes for table `his_assets`
+-- Indexes for table `assets`
 --
-ALTER TABLE `his_assets`
+ALTER TABLE `assets`
   ADD PRIMARY KEY (`asst_id`);
 
 --
--- Indexes for table `his_departments`
+-- Indexes for table `departments`
 --
-ALTER TABLE `his_departments`
+ALTER TABLE `departments`
   ADD PRIMARY KEY (`dept_id`);
 
 --
--- Indexes for table `his_docs`
+-- Indexes for table `docs`
 --
-ALTER TABLE `his_docs`
+ALTER TABLE `docs`
   ADD PRIMARY KEY (`doc_id`);
 
 --
--- Indexes for table `his_equipments`
+-- Indexes for table `equipments`
 --
-ALTER TABLE `his_equipments`
+ALTER TABLE `equipments`
   ADD PRIMARY KEY (`eqp_id`);
 
 --
--- Indexes for table `his_laboratory`
+-- Indexes for table `laboratory`
 --
-ALTER TABLE `his_laboratory`
+ALTER TABLE `laboratory`
   ADD PRIMARY KEY (`lab_id`),
   ADD UNIQUE KEY `lab_number` (`lab_number`);
 
 --
--- Indexes for table `his_medical_records`
+-- Indexes for table `medical_records`
 --
-ALTER TABLE `his_medical_records`
+ALTER TABLE `medical_records`
   ADD PRIMARY KEY (`mdr_id`);
 
 --
--- Indexes for table `his_patients`
+-- Indexes for table `patients`
 --
-ALTER TABLE `his_patients`
+ALTER TABLE `patients`
   ADD PRIMARY KEY (`pat_id`),
   ADD UNIQUE KEY `idx_pat_number` (`pat_number`),
   ADD UNIQUE KEY `pat_phone` (`pat_phone`);
 
 --
--- Indexes for table `his_patient_transfers`
+-- Indexes for table `patient_transfers`
 --
-ALTER TABLE `his_patient_transfers`
+ALTER TABLE `patient_transfers`
   ADD PRIMARY KEY (`t_id`);
 
 --
--- Indexes for table `his_payrolls`
+-- Indexes for table `payrolls`
 --
-ALTER TABLE `his_payrolls`
+ALTER TABLE `payrolls`
   ADD PRIMARY KEY (`pay_id`);
 
 --
--- Indexes for table `his_pharmaceuticals`
+-- Indexes for table `pharmaceuticals`
 --
-ALTER TABLE `his_pharmaceuticals`
+ALTER TABLE `pharmaceuticals`
   ADD PRIMARY KEY (`phar_id`);
 
 --
--- Indexes for table `his_pharmaceuticals_categories`
+-- Indexes for table `pharmaceuticals_categories`
 --
-ALTER TABLE `his_pharmaceuticals_categories`
+ALTER TABLE `pharmaceuticals_categories`
   ADD PRIMARY KEY (`pharm_cat_id`);
 
 --
--- Indexes for table `his_prescriptions`
+-- Indexes for table `prescriptions`
 --
-ALTER TABLE `his_prescriptions`
+ALTER TABLE `prescriptions`
   ADD PRIMARY KEY (`pres_id`);
 
 --
--- Indexes for table `his_pwdresets`
+-- Indexes for table `pwdresets`
 --
-ALTER TABLE `his_pwdresets`
+ALTER TABLE `pwdresets`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `his_receptionists`
+-- Indexes for table `receptionists`
 --
-ALTER TABLE `his_receptionists`
+ALTER TABLE `receptionists`
   ADD PRIMARY KEY (`receptionist_id`);
 
 --
--- Indexes for table `his_surgery`
+-- Indexes for table `surgery`
 --
-ALTER TABLE `his_surgery`
+ALTER TABLE `surgery`
   ADD PRIMARY KEY (`s_id`);
 
 --
--- Indexes for table `his_vendor`
+-- Indexes for table `vendor`
 --
-ALTER TABLE `his_vendor`
+ALTER TABLE `vendor`
   ADD PRIMARY KEY (`v_id`);
 
 --
--- Indexes for table `his_vitals`
+-- Indexes for table `vitals`
 --
-ALTER TABLE `his_vitals`
+ALTER TABLE `vitals`
   ADD PRIMARY KEY (`vit_id`),
   ADD KEY `fk_vit_pat_number` (`vit_pat_number`);
 
@@ -674,123 +674,123 @@ ALTER TABLE `his_vitals`
 --
 
 --
--- AUTO_INCREMENT for table `his_accounts`
+-- AUTO_INCREMENT for table `accounts`
 --
-ALTER TABLE `his_accounts`
+ALTER TABLE `accounts`
   MODIFY `acc_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `his_admin`
+-- AUTO_INCREMENT for table `admin`
 --
-ALTER TABLE `his_admin`
+ALTER TABLE `admin`
   MODIFY `ad_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `his_appointment`
+-- AUTO_INCREMENT for table `appointment`
 --
-ALTER TABLE `his_appointment`
+ALTER TABLE `appointment`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `his_assets`
+-- AUTO_INCREMENT for table `assets`
 --
-ALTER TABLE `his_assets`
+ALTER TABLE `assets`
   MODIFY `asst_id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `his_departments`
+-- AUTO_INCREMENT for table `departments`
 --
-ALTER TABLE `his_departments`
+ALTER TABLE `departments`
   MODIFY `dept_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `his_docs`
+-- AUTO_INCREMENT for table `docs`
 --
-ALTER TABLE `his_docs`
+ALTER TABLE `docs`
   MODIFY `doc_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `his_equipments`
+-- AUTO_INCREMENT for table `equipments`
 --
-ALTER TABLE `his_equipments`
+ALTER TABLE `equipments`
   MODIFY `eqp_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `his_laboratory`
+-- AUTO_INCREMENT for table `laboratory`
 --
-ALTER TABLE `his_laboratory`
+ALTER TABLE `laboratory`
   MODIFY `lab_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `his_medical_records`
+-- AUTO_INCREMENT for table `medical_records`
 --
-ALTER TABLE `his_medical_records`
+ALTER TABLE `medical_records`
   MODIFY `mdr_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `his_patients`
+-- AUTO_INCREMENT for table `patients`
 --
-ALTER TABLE `his_patients`
+ALTER TABLE `patients`
   MODIFY `pat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `his_patient_transfers`
+-- AUTO_INCREMENT for table `patient_transfers`
 --
-ALTER TABLE `his_patient_transfers`
+ALTER TABLE `patient_transfers`
   MODIFY `t_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `his_payrolls`
+-- AUTO_INCREMENT for table `payrolls`
 --
-ALTER TABLE `his_payrolls`
+ALTER TABLE `payrolls`
   MODIFY `pay_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `his_pharmaceuticals`
+-- AUTO_INCREMENT for table `pharmaceuticals`
 --
-ALTER TABLE `his_pharmaceuticals`
+ALTER TABLE `pharmaceuticals`
   MODIFY `phar_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `his_pharmaceuticals_categories`
+-- AUTO_INCREMENT for table `pharmaceuticals_categories`
 --
-ALTER TABLE `his_pharmaceuticals_categories`
+ALTER TABLE `pharmaceuticals_categories`
   MODIFY `pharm_cat_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `his_prescriptions`
+-- AUTO_INCREMENT for table `prescriptions`
 --
-ALTER TABLE `his_prescriptions`
+ALTER TABLE `prescriptions`
   MODIFY `pres_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `his_pwdresets`
+-- AUTO_INCREMENT for table `pwdresets`
 --
-ALTER TABLE `his_pwdresets`
+ALTER TABLE `pwdresets`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `his_receptionists`
+-- AUTO_INCREMENT for table `receptionists`
 --
-ALTER TABLE `his_receptionists`
+ALTER TABLE `receptionists`
   MODIFY `receptionist_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `his_surgery`
+-- AUTO_INCREMENT for table `surgery`
 --
-ALTER TABLE `his_surgery`
+ALTER TABLE `surgery`
   MODIFY `s_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `his_vendor`
+-- AUTO_INCREMENT for table `vendor`
 --
-ALTER TABLE `his_vendor`
+ALTER TABLE `vendor`
   MODIFY `v_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `his_vitals`
+-- AUTO_INCREMENT for table `vitals`
 --
-ALTER TABLE `his_vitals`
+ALTER TABLE `vitals`
   MODIFY `vit_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
@@ -798,17 +798,17 @@ ALTER TABLE `his_vitals`
 --
 
 --
--- Constraints for table `his_appointments`
+-- Constraints for table `appointments`
 --
-ALTER TABLE `his_appointments`
-  ADD CONSTRAINT `his_appointments_ibfk_1` FOREIGN KEY (`pat_id`) REFERENCES `his_patients` (`pat_id`),
-  ADD CONSTRAINT `his_appointments_ibfk_2` FOREIGN KEY (`doc_id`) REFERENCES `his_docs` (`doc_id`);
+ALTER TABLE `appointments`
+  ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`pat_id`) REFERENCES `patients` (`pat_id`),
+  ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`doc_id`) REFERENCES `docs` (`doc_id`);
 
 --
--- Constraints for table `his_vitals`
+-- Constraints for table `vitals`
 --
-ALTER TABLE `his_vitals`
-  ADD CONSTRAINT `fk_vit_pat_number` FOREIGN KEY (`vit_pat_number`) REFERENCES `his_patients` (`pat_number`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `vitals`
+  ADD CONSTRAINT `fk_vit_pat_number` FOREIGN KEY (`vit_pat_number`) REFERENCES `patients` (`pat_number`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

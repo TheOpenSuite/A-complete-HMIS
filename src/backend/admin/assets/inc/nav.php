@@ -1,6 +1,6 @@
 <?php
     $aid=$_SESSION['ad_id'];
-    $ret="select * from his_admin where ad_id=?";
+    $ret="select * from admin where ad_id=?";
     $stmt= $mysqli->prepare($ret) ;
     $stmt->bind_param('i',$aid);
     $stmt->execute() ;//ok
@@ -42,7 +42,7 @@
                     </div>
 
                     <!-- item-->
-                    <a href="his_admin_account.php" class="dropdown-item notify-item">
+                    <a href="admin_account.php" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
                         <span>My Account</span>
                     </a>
@@ -65,9 +65,9 @@
 
         <!-- LOGO -->
         <div class="logo-box">
-            <a href="his_admin_dashboard.php" class="logo text-center">
+            <a href="admin_dashboard.php" class="logo text-center">
                 <span class="logo-lg">
-                    <img src="assets/images/logo-light.png" alt="" height="18">
+                    <img src="assets/images/logo-light.png" alt="" height="45">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->
                 </span>
                 <span class="logo-sm">
@@ -91,44 +91,44 @@
                 </a>
                 <div class="dropdown-menu">
                     <!-- item-->
-                    <a href="his_admin_add_employee.php" class="dropdown-item">
+                    <a href="admin_add_employee.php" class="dropdown-item">
                         <i class="fe-users mr-1"></i>
                         <span>Employee</span>
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_register_patient.php" class="dropdown-item">
+                    <a href="admin_register_patient.php" class="dropdown-item">
                         <i class="fe-activity mr-1"></i>
                         <span>Patient</span>
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_add_payroll.php" class="dropdown-item">
+                    <a href="admin_add_payroll.php" class="dropdown-item">
                         <i class="fe-layers mr-1"></i>
                         <span>Payroll</span>
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_add_vendor.php" class="dropdown-item">
+                    <a href="admin_add_vendor.php" class="dropdown-item">
                         <i class="fe-shopping-cart mr-1"></i>
                         <span>Vendor</span>
                     </a>
 
 
                     <!-- item-->
-                    <a href="his_admin_add_medical_record.php" class="dropdown-item">
+                    <a href="admin_add_medical_record.php" class="dropdown-item">
                         <i class="fe-list mr-1"></i>
                         <span>Medical Report</span>
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_lab_report.php" class="dropdown-item">
+                    <a href="admin_lab_report.php" class="dropdown-item">
                         <i class="fe-hard-drive mr-1"></i>
                         <span>Laboratory Report</span>
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_surgery_records.php" class="dropdown-item">
+                    <a href="admin_surgery_records.php" class="dropdown-item">
                         <i class="fe-anchor mr-1"></i>
                         <span>Surgical/Theatre Report</span>
                     </a>

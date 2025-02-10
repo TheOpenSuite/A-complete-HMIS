@@ -7,7 +7,7 @@ if (isset($_POST['doc_login'])) {
     $doc_pwd = $_POST['doc_pwd'];
 
     // Updated SQL query to check for doc_dept='pharmacy'
-    $stmt = $mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM his_docs WHERE doc_number=? AND doc_dept='pharmacy'");
+    $stmt = $mysqli->prepare("SELECT doc_number, doc_pwd, doc_id FROM docs WHERE doc_number=? AND doc_dept='pharmacy'");
 
     // Bind fetched parameters
     $stmt->bind_param('s', $doc_number);
@@ -79,7 +79,7 @@ else
                     <div class="card-body p-4">
                         <div class="text-center w-75 m-auto">
                             <a href="index.php">
-                                <span><img src="assets/images/logo-dark.png" alt="" height="22"></span>
+                                <span><img src="assets/images/logo-dark.png" alt="" height="75"></span>
                             </a>
                             <p class="text-muted mb-4 mt-3">Enter your doctor number and password to access the Pharmacist panel.</p>
                         </div>
@@ -101,12 +101,6 @@ else
                         </form>
                     </div> <!-- end card-body -->
                 </div> <!-- end card -->
-
-                <div class="row mt-3">
-                    <div class="col-12 text-center">
-                        <p><a href="his_doc_reset_pwd.php" class="text-white-50 ml-1">Forgot your password?</a></p>
-                    </div> <!-- end col -->
-                </div> <!-- end row -->
             </div> <!-- end col -->
         </div> <!-- end row -->
     </div> <!-- end container -->
