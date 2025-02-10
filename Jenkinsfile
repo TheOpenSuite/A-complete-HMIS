@@ -64,7 +64,7 @@ pipeline {
                 script {
                     // Build production image
                     sh """
-                        docker build -t ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER} \\
+                        docker build -t ${DOCKER_IMAGE}:B${env.BUILD_NUMBER} \\
                             -t ${DOCKER_IMAGE}:latest \\
                             --label ci-build=${env.BUILD_TAG} \\
                             --label stage=production \\
@@ -79,7 +79,7 @@ pipeline {
                     )]) {
                         sh """
                             echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
-                            docker push ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER}
+                            docker push ${DOCKER_IMAGE}:B${env.BUILD_NUMBER}
                             docker push ${DOCKER_IMAGE}:latest
                         """
                     }
