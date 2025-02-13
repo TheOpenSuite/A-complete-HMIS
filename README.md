@@ -102,7 +102,7 @@ This HMIS aims at having each department as a role, to better handle a real worl
 
 - For the actual image or if you need to pull it, run the following command
    ```bash
-docker push theopensuite/hmis-app:latest
+   docker pull theopensuite/hmis-app:latest
 
 <!-- ### Setup Instructions
 1. Clone repository:
