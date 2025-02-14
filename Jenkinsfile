@@ -58,7 +58,7 @@ pipeline {
                 }
             }
         }
-
+/*
         stage('Build & Push') {
             steps {
                 script {
@@ -91,7 +91,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
 
         stage('Commit Changes to GitHub') {
             steps {
@@ -101,6 +101,13 @@ pipeline {
                             git config user.name "Jenkins"
                             git config user.email "TheOpenSuite@users.noreply.github.com"
                             git remote set-url origin ${GITHUB_REPO}
+
+                            CURRENT_BRANCH=\$(git rev-parse --abbrev-ref HEAD)
+                            if [ "\$CURRENT_BRANCH" != "Proper-deployment" ]; then
+                                echo "ERROR: Not on Proper-deployment branch. Current branch: \$CURRENT_BRANCH"
+                                exit 1
+                            fi
+
                             git add .
                             git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER}"
                             git push origin HEAD:Proper-deployment
