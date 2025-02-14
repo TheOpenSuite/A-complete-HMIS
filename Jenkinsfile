@@ -64,7 +64,7 @@ pipeline {
                     // Calculate the major version and the last two digits of the build number
                     def MAJOR_VERSION = 2 // Manually set
                     def buildNumber = env.BUILD_NUMBER.toInteger()
-                    def minorVersion = buildNumber / 100 // Increases every 100 builds
+                    def minorVersion = buildNumber.intdiv(100) // Increases every 100 builds
                     def buildVersion = buildNumber % 100 // Takes the last 2 digits
                     def buildVersionStr = String.format("%02d", buildVersion)
 
@@ -90,14 +90,14 @@ pipeline {
                     }
                 }
             }
-        }
+        } 
 
     }
     
     post {
         always {
             script {
-                // Nuclear cleanup of all pipeline-created resources
+                // Total Cleanup of all pipeline-created resources
                 sh """
                     # Remove containers
                     docker rm -f \$(docker ps -aq --filter "label=ci-build=${env.BUILD_TAG}") 2>/dev/null || true
@@ -115,7 +115,7 @@ pipeline {
                     docker system prune -af --filter "label=ci-build=${env.BUILD_TAG}"
                 """
                 
-                // Final verification
+                // Final Test
                 sh """
                     echo "=== Remaining Containers ==="
                     docker ps -a --filter "label=ci-build=${env.BUILD_TAG}"
