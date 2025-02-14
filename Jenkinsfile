@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = "theopensuite/hmis-app"
+        DOCKER_BUILDKIT = '1'
     }
     stages {  
         stage('Test') {
@@ -64,7 +65,7 @@ pipeline {
                 script {
                     // Build production image
                     sh """
-                        docker build -t ${DOCKER_IMAGE}:B${env.BUILD_NUMBER} \\
+                        docker build -t ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER} \\
                             -t ${DOCKER_IMAGE}:latest \\
                             --label ci-build=${env.BUILD_TAG} \\
                             --label stage=production \\
@@ -75,7 +76,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-hmis-token', variable: 'DOCKER_TOKEN')]) {
                         sh """
                             echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
-                            docker push ${DOCKER_IMAGE}:B${env.BUILD_NUMBER}
+                            docker push ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER}
                             docker push ${DOCKER_IMAGE}:latest
                         """
                     }
