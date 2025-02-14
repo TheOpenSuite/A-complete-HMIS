@@ -102,7 +102,7 @@ pipeline {
                             git config user.email "TheOpenSuite@users.noreply.github.com"
                             git remote set-url origin https://theopensuite:${GITHUB_TOKEN}@github.com/TheOpenSuite/A-complete-HMIS.git
                             git checkout Proper-deployment
-                            git pull origin Proper-deployment --no-rebase
+                            git pull origin Proper-deployment --allow-unrelated-histories --no-rebase
                             git add .
                             git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER}"
                             git push origin HEAD:Proper-deployment
