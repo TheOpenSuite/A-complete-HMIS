@@ -100,7 +100,7 @@ pipeline {
                         sh """
                             git config user.name "Jenkins"
                             git config user.email "TheOpenSuite@users.noreply.github.com"
-                            git remote set-url origin ${GITHUB_REPO}
+                            git remote set-url origin https://theopensuite:${GITHUB_TOKEN}@github.com/TheOpenSuite/A-complete-HMIS.git
                             git checkout Proper-deployment
                             git fetch --prune
                             git add .
