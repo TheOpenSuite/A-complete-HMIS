@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = "theopensuite/hmis-app"
-        GITHUB_REPO = "https://TheOpenSuite:${GITHUB_TOKEN}@github.com/TheOpenSuite/A-complete-HMIS.git" // Use token-based authentication
     }
     stages {  
         stage('Test') {
@@ -58,7 +57,7 @@ pipeline {
                 }
             }
         }
-/*
+
         stage('Build & Push') {
             steps {
                 script {
@@ -91,26 +90,7 @@ pipeline {
                     }
                 }
             }
-        } */
-
-        stage('Commit Changes to GitHub') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-                        sh '''
-                            git config user.name "Jenkins"
-                            git config user.email "TheOpenSuite@users.noreply.github.com"
-                            git remote set-url origin https://theopensuite:${GITHUB_TOKEN}@github.com/TheOpenSuite/A-complete-HMIS.git
-                            git checkout Proper-deployment
-                            git pull origin Proper-deployment --allow-unrelated-histories --no-rebase
-                            git add .
-                            git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER}"
-                            git push origin HEAD:Proper-deployment
-                        '''
-                    }
-                }
-            }
-        }
+        } 
 
     }
     
@@ -135,7 +115,7 @@ pipeline {
                     docker system prune -af --filter "label=ci-build=${env.BUILD_TAG}"
                 """
                 
-                // Final Test.
+                // Final Test
                 sh """
                     echo "=== Remaining Containers ==="
                     docker ps -a --filter "label=ci-build=${env.BUILD_TAG}"
