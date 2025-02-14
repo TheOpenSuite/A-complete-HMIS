@@ -102,7 +102,7 @@ pipeline {
                             git config user.email "TheOpenSuite@users.noreply.github.com"
                             git remote set-url origin ${GITHUB_REPO}
                             git add .
-                            git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER} and with version ${versionTag}"
+                            git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER}"
                             git push origin Proper-deployment
                         """
                     }
