@@ -96,7 +96,7 @@ pipeline {
         stage('Commit Changes to GitHub') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'github2', variable: 'GITHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh """
                             git config user.name "Jenkins"
                             git config user.email "TheOpenSuite@users.noreply.github.com"
@@ -115,7 +115,7 @@ pipeline {
     post {
         always {
             script {
-                // Nuclear cleanup of all pipeline-created resources
+                // Total Cleanup of all pipeline-created resources
                 sh """
                     # Remove containers
                     docker rm -f \$(docker ps -aq --filter "label=ci-build=${env.BUILD_TAG}") 2>/dev/null || true
