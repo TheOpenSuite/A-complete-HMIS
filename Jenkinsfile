@@ -72,17 +72,14 @@ pipeline {
                     """
                     
                     // Push images
-                    withCredentials([usernamePassword(
-                        credentialsId: 'docker-hmis',
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )]) {
+                    withCredentials([string(credentialsId: 'docker-hmis-token', variable: 'DOCKER_TOKEN')]) {
                         sh """
-                            echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+                            echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
                             docker push ${DOCKER_IMAGE}:B${env.BUILD_NUMBER}
                             docker push ${DOCKER_IMAGE}:latest
                         """
                     }
+
                 }
             }
         }
