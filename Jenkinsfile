@@ -102,6 +102,7 @@ pipeline {
                             git config user.email "TheOpenSuite@users.noreply.github.com"
                             git remote set-url origin ${GITHUB_REPO}
                             git checkout Proper-deployment
+                            git fetch --prune
                             git add .
                             git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER}"
                             git push origin HEAD:Proper-deployment
@@ -134,7 +135,7 @@ pipeline {
                     docker system prune -af --filter "label=ci-build=${env.BUILD_TAG}"
                 """
                 
-                // Final verification
+                // Final Test
                 sh """
                     echo "=== Remaining Containers ==="
                     docker ps -a --filter "label=ci-build=${env.BUILD_TAG}"
