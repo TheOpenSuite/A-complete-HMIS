@@ -84,7 +84,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-hmis-token', variable: 'DOCKER_TOKEN')]) {
                         sh """
                             echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
-                            docker push ${DOCKER_IMAGE}:${majorVersion}.B${buildVersionStr}
+                            docker push ${DOCKER_IMAGE}:${versionTag}
                             docker push ${DOCKER_IMAGE}:latest
                         """
                     }
