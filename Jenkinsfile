@@ -21,7 +21,6 @@ pipeline {
                             .
                     """
                     
-                    // Create isolated network
                     sh "docker network create --label ci-build=${env.BUILD_TAG} test-net-${env.BUILD_TAG}"
                     
                     // Start test container
@@ -34,7 +33,7 @@ pipeline {
                             ${DOCKER_IMAGE}:test-${env.BUILD_TAG}
                     """
                     
-                    // Health check using disposable curl container
+                    // Health check with disposable curl container
                     sh """
                         docker run --rm \\
                             --network test-net-${env.BUILD_TAG} \\
@@ -62,9 +61,16 @@ pipeline {
         stage('Build & Push') {
             steps {
                 script {
+                    // Calculate the major version and the last two digits of the build number
+                    def majorVersion = (env.BUILD_NUMBER.toInteger() / 100) + 2
+                    def buildVersion = env.BUILD_NUMBER.toInteger() % 100
+
+                    // Format the build number to always be two digits
+                    def buildVersionStr = String.format("%02d", buildVersion)
+
                     // Build production image
                     sh """
-                        docker build -t ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER} \\
+                        docker build -t ${DOCKER_IMAGE}:${majorVersion}.B${buildVersionStr} \\
                             -t ${DOCKER_IMAGE}:latest \\
                             --label ci-build=${env.BUILD_TAG} \\
                             --label stage=production \\
@@ -75,14 +81,14 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-hmis-token', variable: 'DOCKER_TOKEN')]) {
                         sh """
                             echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
-                            docker push ${DOCKER_IMAGE}:2.B${env.BUILD_NUMBER}
+                            docker push ${DOCKER_IMAGE}:${majorVersion}.B${buildVersionStr}
                             docker push ${DOCKER_IMAGE}:latest
                         """
                     }
-
                 }
             }
         }
+
     }
     
     post {
