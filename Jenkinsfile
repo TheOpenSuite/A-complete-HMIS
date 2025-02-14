@@ -62,15 +62,18 @@ pipeline {
             steps {
                 script {
                     // Calculate the major version and the last two digits of the build number
-                    def majorVersion = (env.BUILD_NUMBER.toInteger() / 100) + 2
-                    def buildVersion = env.BUILD_NUMBER.toInteger() % 100
-
-                    // Format the build number to always be two digits
+                    def MAJOR_VERSION = 2 // Manually set
+                    def buildNumber = env.BUILD_NUMBER.toInteger()
+                    def minorVersion = buildNumber / 100 // Increases every 100 builds
+                    def buildVersion = buildNumber % 100 // Takes the last 2 digits
                     def buildVersionStr = String.format("%02d", buildVersion)
+
+                    // Construct version string
+                    def versionTag = "${MAJOR_VERSION}.${minorVersion}.${buildVersionStr}"
 
                     // Build production image
                     sh """
-                        docker build -t ${DOCKER_IMAGE}:${majorVersion}.B${buildVersionStr} \\
+                        docker build -t ${DOCKER_IMAGE}:${versionTag} \\
                             -t ${DOCKER_IMAGE}:latest \\
                             --label ci-build=${env.BUILD_TAG} \\
                             --label stage=production \\
