@@ -65,7 +65,7 @@ pipeline {
                     // Calculate the major version and the last two digits of the build number
                     def MAJOR_VERSION = 2 // Manually set
                     def buildNumber = env.BUILD_NUMBER.toInteger()
-                    def minorVersion = buildNumber / 100 // Increases every 100 builds
+                    def minorVersion = buildNumber.intdiv(100) // Increases every 100 builds
                     def buildVersion = buildNumber % 100 // Takes the last 2 digits
                     def buildVersionStr = String.format("%02d", buildVersion)
 
@@ -103,7 +103,7 @@ pipeline {
                             git remote set-url origin ${GITHUB_REPO}
                             git add .
                             git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER}"
-                            git push origin Proper-deployment
+                            git push origin HEAD:Proper-deployment
                         """
                     }
                 }
