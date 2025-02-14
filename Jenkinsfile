@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = "theopensuite/hmis-app"
+        GITHUB_REPO = "https://TheOpenSuite:${GITHUB_TOKEN}@github.com/TheOpenSuite/A-complete-HMIS.git" // Use token-based authentication
     }
     stages {  
         stage('Test') {
@@ -86,6 +87,23 @@ pipeline {
                             echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
                             docker push ${DOCKER_IMAGE}:${versionTag}
                             docker push ${DOCKER_IMAGE}:latest
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Commit Changes to GitHub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'github2', variable: 'GITHUB_TOKEN')]) {
+                        sh """
+                            git config user.name "Jenkins"
+                            git config user.email "TheOpenSuite@users.noreply.github.com"
+                            git remote set-url origin ${GITHUB_REPO}
+                            git add .
+                            git commit -m "Auto-update version from Jenkins build ${env.BUILD_NUMBER} and with version ${versionTag}"
+                            git push origin Proper-deployment
                         """
                     }
                 }
