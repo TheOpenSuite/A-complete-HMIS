@@ -92,7 +92,7 @@ pipeline {
             }
         }
 
-        stage{
+        stage('Commit'){
             steps{
                 script{
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')])
