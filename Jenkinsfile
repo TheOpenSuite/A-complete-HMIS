@@ -72,20 +72,15 @@ pipeline {
                     def versionTag = "${MAJOR_VERSION}.${minorVersion}.${buildVersionStr}"
 
                     // Build production image
-                    sh '''
-                        docker build -t $DOCKER_IMAGE:$versionTag \\
-                            -t $DOCKER_IMAGE:latest \\
-                            --label ci-build=$env.BUILD_TAG \\
+                    sh """
+                        docker build -t ${DOCKER_IMAGE}:${versionTag} \\
+                            -t ${DOCKER_IMAGE}:latest \\
+                            --label ci-build=${env.BUILD_TAG} \\
                             --label stage=production \\
                             .
-                    '''      
-                }
-            }
-        }
-
-        stage('Push') {
-            steps{
-                script{
+                    """
+                    
+                    // Push images
                     withCredentials([string(credentialsId: 'docker-hmis-token', variable: 'DOCKER_TOKEN')]) {
                         sh """
                             echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
