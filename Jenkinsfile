@@ -95,7 +95,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    // Ensure that Jenkins is pulling the latest code from GitHub
+                    deleteDir()
                     checkout scm
                 }
             }
