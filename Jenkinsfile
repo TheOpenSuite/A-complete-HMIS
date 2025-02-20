@@ -95,7 +95,7 @@ pipeline {
         stage('Commit'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')])
+                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
                     sh 'git config user.name "Jenkins"'
                     sh 'git config user.email "TheOpenSuite@users.noreply.github.com"'
                     sh 'git status'
@@ -104,6 +104,7 @@ pipeline {
                     sh 'git add .'
                     sh 'git commit -m "ci: Automated Jenkins build"'
                     sh 'git push origin HEAD:Proper-deployment'
+                    }
                 }
             }
         } 
