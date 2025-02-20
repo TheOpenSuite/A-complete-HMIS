@@ -92,6 +92,15 @@ pipeline {
             }
         } */
 
+        stage('Checkout') {
+            steps {
+                script {
+                    // Ensure that Jenkins is pulling the latest code from GitHub
+                    checkout scm
+                }
+            }
+        }
+
         stage('Commit'){
             steps{
                 script{
@@ -111,7 +120,7 @@ pipeline {
                     }
                 }
             }
-        } 
+        }
 
     }
     
