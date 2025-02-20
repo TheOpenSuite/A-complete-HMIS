@@ -99,11 +99,11 @@ pipeline {
                         sh '''
                             git config user.name "Jenkins"
                             git config user.email "TheOpenSuite@users.noreply.github.com"
+                            git remote set-url origin https://TheOpenSuite:$GITHUB_TOKEN@github.com/TheOpenSuite/A-complete-HMIS.git
                             git fetch --all
                             git reset --hard origin/Proper-deployment
                             git status
                             git branch
-                            git remote set-url origin https://TheOpenSuite:$GITHUB_TOKEN@github.com/TheOpenSuite/A-complete-HMIS.git
                             git add .
                             git commit -m "ci: Automated Jenkins build"
                             git push origin HEAD:Proper-deployment
