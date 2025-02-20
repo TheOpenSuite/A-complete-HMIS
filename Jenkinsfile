@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        /* stage('Build & Push') {
+        stage('Build & Push') {
             steps {
                 script {
                     // Calculate the major version and the last two digits of the build number
@@ -72,15 +72,20 @@ pipeline {
                     def versionTag = "${MAJOR_VERSION}.${minorVersion}.${buildVersionStr}"
 
                     // Build production image
-                    sh """
-                        docker build -t ${DOCKER_IMAGE}:${versionTag} \\
-                            -t ${DOCKER_IMAGE}:latest \\
-                            --label ci-build=${env.BUILD_TAG} \\
-                            --label stage=production \\
+                    sh '''
+                        docker build -t $DOCKER_IMAGE:$versionTag \
+                            -t $DOCKER_IMAGE:latest \
+                            --label ci-build=$env.BUILD_TAG \
+                            --label stage=production \
                             .
-                    """
-                    
-                    // Push images
+                    '''      
+                }
+            }
+        }
+
+        stage('Push') {
+            steps{
+                script{
                     withCredentials([string(credentialsId: 'docker-hmis-token', variable: 'DOCKER_TOKEN')]) {
                         sh """
                             echo \$DOCKER_TOKEN | docker login -u theopensuite --password-stdin
@@ -90,38 +95,7 @@ pipeline {
                     }
                 }
             }
-        } */
-
-        stage('Checkout') {
-            steps {
-                script {
-                    deleteDir()
-                    checkout scm
-                }
-            }
-        }
-
-        stage('Commit'){
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
-                        sh '''
-                            git config user.name "Jenkins"
-                            git config user.email "TheOpenSuite@users.noreply.github.com"
-                            git remote set-url origin https://TheOpenSuite:$GITHUB_TOKEN@github.com/TheOpenSuite/A-complete-HMIS.git
-                            git fetch --all
-                            git checkout Proper-deployment
-                            git reset --hard origin/Proper-deployment
-                            git status
-                            git branch
-                            git add .
-                            git commit -m "ci: Automated Jenkins build"
-                            git push origin HEAD:Proper-deployment
-                        '''
-                    }
-                }
-            }
-        }
+        } 
 
     }
     
