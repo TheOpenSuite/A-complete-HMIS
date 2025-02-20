@@ -110,6 +110,7 @@ pipeline {
                             git config user.email "TheOpenSuite@users.noreply.github.com"
                             git remote set-url origin https://TheOpenSuite:$GITHUB_TOKEN@github.com/TheOpenSuite/A-complete-HMIS.git
                             git fetch --all
+                            git checkout Proper-deployment
                             git reset --hard origin/Proper-deployment
                             git status
                             git branch
