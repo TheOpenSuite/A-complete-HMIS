@@ -73,10 +73,10 @@ pipeline {
 
                     // Build production image
                     sh '''
-                        docker build -t $DOCKER_IMAGE:$versionTag \
-                            -t $DOCKER_IMAGE:latest \
-                            --label ci-build=$env.BUILD_TAG \
-                            --label stage=production \
+                        docker build -t $DOCKER_IMAGE:$versionTag \\
+                            -t $DOCKER_IMAGE:latest \\
+                            --label ci-build=$env.BUILD_TAG \\
+                            --label stage=production \\
                             .
                     '''      
                 }
