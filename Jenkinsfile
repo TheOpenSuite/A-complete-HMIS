@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage('Build & Push') {
+        /* stage('Build & Push') {
             steps {
                 script {
                     // Calculate the major version and the last two digits of the build number
@@ -90,7 +90,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
 
         stage('Commit'){
             steps{
