@@ -3,6 +3,15 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/Version-2.0-orange)
 
+## 📚 Table of Contents
+- [Introduction](#-introduction)
+- [Key Features](#-key-features)
+- [Testing with XAMPP](#-testing-with-xampp)
+- [Testing with Docker](#-testing-native)
+- [Login Credentials](#Credentials)
+- [License](#Llicense)
+
+##
 A complete hospital management system which includes a Reception, Pharmacy, Admin panel and doctors.
 ## 📖 Introduction
 
@@ -12,6 +21,12 @@ This HMIS aims at having each department as a role, to better handle a real worl
 - Advanced and new reception management system
 - Enhanced patient workflow integration
 - Improved database architecture
+
+Upcoming changes:
+- UI overhaul
+- A notification system to better integrate communications
+- More departments exclusive tabs like the surgery tab
+- Split some services into microservices for easier scaling, if needed.
 
 ## 🚀 Key Features
 
@@ -25,8 +40,8 @@ This HMIS aims at having each department as a role, to better handle a real worl
 - **Original UI Preserved**
 
 ### New Enhancements
-➕ **Imporoved Pharmacy Management System**
-- Has their own layout
+➕ **Improved Pharmacy Management System**
+- Has its own layout
 - Drug inventory tracking
 - Prescription status integration 
 - Supplier management
@@ -34,17 +49,17 @@ This HMIS aims at having each department as a role, to better handle a real worl
   
 ➕ **Reception Dashboard**
 - New and old patients are checked
-- Doctor selection based on least patients
+- Doctor selection based on availability (least assigned patients)
 - Multi-department coordination
 - Outpatient doctor management
 - Scheduling patients
 - Insurance verification (Coming Soon!)
 
 ### System Improvements
-- Each role with the appropriate intefaces for their role
-- Each Doctor can only see assigned patient
+- Each role with the appropriate interfaces for their role
+- Each doctor can only see assigned patients
 - Appointment Scheduling
-- Role-Based Access Control (Not Fully Complete/Secure)
+- Role-Based Access Control (Partially Implemented; Security Enhancements in Progress)
 
 <!-- ## 🛠️ Installation -->
 ## 🧪 Testing with XAMPP
@@ -61,11 +76,11 @@ This HMIS aims at having each department as a role, to better handle a real worl
 3. Clone repository to `htdocs` folder:
    ```bash
    cd C:/xampp/htdocs
-   git clone [repository-url] hmis
+   git clone https://github.com/TheOpenSuite/A-complete-HMIS.git hmis
 
-4. Create new database with the same name as the .sql file
+4. Create a new database with the same name as the .sql file
    
-5. Import the .sql file to myphpadmin with the same name.
+5. Import the .sql file to phpMyAdmin with the same name.
    
 7. Access system:
    ```bash
@@ -74,14 +89,14 @@ This HMIS aims at having each department as a role, to better handle a real worl
 <!-- ### Setup Instructions
 1. Clone repository:
    ```bash
-   git clone [repository-url] -->
+   git clone https://github.com/TheOpenSuite/A-complete-HMIS.git -->
 
 ##
 
 ## 🧪 Testing native
 ### Local Environment Setup
 1. Install [Docker](https://www.docker.com/):
-2. Download the source files and the necessary docker files.
+2. Download the source files and the necessary Docker files.
    - Dockerfile
    - docker-compose.yml
 
@@ -96,7 +111,7 @@ This HMIS aims at having each department as a role, to better handle a real worl
 
 4. Create new database called my_db (Name can be changed but make sure to change it in the compose file)
    
-5. Import the .sql file to myphpadmin with the same name.
+5. Import the .sql file to phpMyAdmin with the same name.
    
 7. Enjoy!
 
@@ -107,14 +122,19 @@ This HMIS aims at having each department as a role, to better handle a real worl
 <!-- ### Setup Instructions
 1. Clone repository:
    ```bash
-   git clone [repository-url] -->
+   git clone https://github.com/TheOpenSuite/A-complete-HMIS.git -->
 
 ##
-Login Credentials for admin are:
+## Credentials
+Login credentials for admin are:
 
 Admin Module Email: admin@admin.com
 
 Admin Module Password: admin
 
 ##
-**Credits**: The core framework and initial UI was design by [MartMbithi](https://github.com/MartMbithi).
+**Credits**: The core framework and initial UI was designed by [MartMbithi](https://github.com/MartMbithi).
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
