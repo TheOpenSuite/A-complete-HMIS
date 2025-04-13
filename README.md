@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/Version-2.0-orange)
 
-## 📚 Table of Contents
+## Table of Contents
 - [Introduction](#-introduction)
 - [Key Features](#-key-features)
 - [Testing with XAMPP](#-testing-with-xampp)
@@ -13,7 +13,7 @@
 
 ##
 A complete hospital management system which includes a Reception, Pharmacy, Admin panel and doctors.
-## 📖 Introduction
+## Introduction
 
 This HMIS aims at having each department as a role, to better handle a real world scenario for a patient, featuring:
 - Complete backend restructuring
@@ -28,7 +28,7 @@ Upcoming changes:
 - More departments exclusive tabs like the surgery tab
 - Split some services into microservices for easier scaling, if needed.
 
-## 🚀 Key Features
+## Key Features
 
 ### Core HMIS Modules
 - Patient Registration & Records
