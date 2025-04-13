@@ -91,8 +91,6 @@ Upcoming changes:
    ```bash
    git clone https://github.com/TheOpenSuite/A-complete-HMIS.git -->
 
-##
-
 ## 🧪 Testing native
 ### Local Environment Setup
 1. Install [Docker](https://www.docker.com/):
@@ -124,7 +122,6 @@ Upcoming changes:
    ```bash
    git clone https://github.com/TheOpenSuite/A-complete-HMIS.git -->
 
-##
 ## Credentials
 Login credentials for admin are:
 
