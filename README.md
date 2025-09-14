@@ -1,9 +1,12 @@
-# This is the Legacy Version of the new, modern [HealthStack Microservices](https://github.com/TheOpenSuite/HealthStack-Microservices)
+# This is the Legacy Version of the new, modern [HealthStack Microservices](https://github.com/TheOpenSuite/HealthStack-Microservices). This project has been archived.
+
+
+---
+
 
 # Hospital Management Information System (HMIS)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Version](https://img.shields.io/badge/Version-2.0-orange)
 
 ## Table of Contents
 - [Introduction](#-introduction)
